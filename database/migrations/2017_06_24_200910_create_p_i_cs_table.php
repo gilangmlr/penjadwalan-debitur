@@ -13,7 +13,7 @@ class CreatePICsTable extends Migration
      */
     public function up()
     {
-        Schema::create('p_i_cs', function (Blueprint $table) {
+        Schema::create('p_i_c_s', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
         });
