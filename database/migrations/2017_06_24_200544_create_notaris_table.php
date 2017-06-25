@@ -18,6 +18,12 @@ class CreateNotarisTable extends Migration
             $table->string('name');
             $table->timestamps();
         });
+
+        for ($i = 0; $i < 5; $i++) {
+            DB::table('notaris')->insert(
+                ['name' => 'Notaris ' . $i]
+            );
+        }
     }
 
     /**

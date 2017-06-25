@@ -15,8 +15,15 @@ class CreateRuangansTable extends Migration
     {
         Schema::create('ruangans', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('name');
             $table->timestamps();
         });
+
+        for ($i = 0; $i < 5; $i++) {
+            DB::table('ruangans')->insert(
+                ['name' => 'Ruangan ' . $i]
+            );
+        }
     }
 
     /**

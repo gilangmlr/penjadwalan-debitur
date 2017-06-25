@@ -15,8 +15,15 @@ class CreatePendampingsTable extends Migration
     {
         Schema::create('pendampings', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('name');
             $table->timestamps();
         });
+
+        for ($i = 0; $i < 5; $i++) {
+            DB::table('pendampings')->insert(
+                ['name' => 'Pendamping ' . $i]
+            );
+        }
     }
 
     /**

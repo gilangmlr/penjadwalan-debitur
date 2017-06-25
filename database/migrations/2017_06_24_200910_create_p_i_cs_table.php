@@ -15,8 +15,15 @@ class CreatePICsTable extends Migration
     {
         Schema::create('p_i_c_s', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('name');
             $table->timestamps();
         });
+
+        for ($i = 0; $i < 5; $i++) {
+            DB::table('p_i_c_s')->insert(
+                ['name' => 'PIC ' . $i]
+            );
+        }
     }
 
     /**
