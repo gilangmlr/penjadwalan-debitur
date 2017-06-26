@@ -111,6 +111,34 @@
                             </div>
                         </div>
 
+                        <div class="form-group{{ $errors->has('jam-akad-mulai') ? ' has-error' : '' }}">
+                            <label for="jam-akad-mulai" class="col-md-4 control-label">Jam Akad</label>
+
+                            <div class="col-md-6">
+                                <input id="jam-akad-mulai" type="time" class="form-control" name="jam-akad-mulai" value="{{ old('jam-akad-mulai') }}" required>
+
+                                @if ($errors->has('jam-akad-mulai'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('jam-akad-mulai') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group{{ $errors->has('jam-akad-selesai') ? ' has-error' : '' }}">
+                            <label for="jam-akad-selesai" class="col-md-4 control-label">Jam Akad Selesai</label>
+
+                            <div class="col-md-6">
+                                <input id="jam-akad-selesai" type="time" class="form-control" name="jam-akad-selesai" value="{{ old('jam-akad-selesai') }}" required>
+
+                                @if ($errors->has('jam-akad-selesai'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('jam-akad-selesai') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
                         <div class="form-group{{ $errors->has('ruangan') ? ' has-error' : '' }}">
                             <label for="ruangan" class="col-md-4 control-label">Ruangan</label>
 

@@ -23,8 +23,6 @@ class AkadController extends Controller
     }
 
     /**
-     * Show the application dashboard.
-     *
      * @return \Illuminate\Http\Response
      */
     public function view_create()
@@ -34,7 +32,12 @@ class AkadController extends Controller
         $pendamping = Pendamping::all();
         $pic = PIC::all();
         $ruangan = Ruangan::all();
-        return view('create_akad', ["notaris" => $notaris, "fasilitas" => $fasilitas,
+        return view('akad_create', ["notaris" => $notaris, "fasilitas" => $fasilitas,
                                     "pendamping" => $pendamping, "pic" => $pic, "ruangan" => $ruangan]);
+    }
+
+    public function crud_create()
+    {
+        
     }
 }
