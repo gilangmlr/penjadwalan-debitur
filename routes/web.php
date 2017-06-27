@@ -20,4 +20,4 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/view-akad-create', 'AkadController@view_create')->name('view-akad-create');
-Route::get('/crud-akad-create', 'AkadController@crud_create')->name('crud-akad-create');
+Route::post('/crud-akad-create', 'AkadController@crud_create')->name('crud-akad-create');
