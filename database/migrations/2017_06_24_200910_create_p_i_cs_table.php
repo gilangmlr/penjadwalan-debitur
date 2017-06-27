@@ -13,14 +13,15 @@ class CreatePICsTable extends Migration
      */
     public function up()
     {
-        Schema::create('p_i_c_s', function (Blueprint $table) {
+        Schema::create('p_i_cs', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->timestamps();
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
         });
 
         for ($i = 0; $i < 5; $i++) {
-            DB::table('p_i_c_s')->insert(
+            DB::table('p_i_cs')->insert(
                 ['name' => 'PIC ' . $i]
             );
         }

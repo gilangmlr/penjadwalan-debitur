@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Hash;
 
 class CreateUsersTable extends Migration
 {
@@ -20,8 +21,16 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->rememberToken();
-            $table->timestamps();
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
         });
+
+        for ($i = 0; $i < 5; $i++) {
+            DB::table('users')->insert(
+                ['name' => 'Karyawan ' . $i, 'nik' => $i,
+                 'email' => 'k' . $i . '@d.m', 'password' => Hash::make('pass' . $i)]
+            );
+        }
     }
 
     /**

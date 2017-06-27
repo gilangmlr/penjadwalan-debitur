@@ -16,7 +16,8 @@ class CreateRuangansTable extends Migration
         Schema::create('ruangans', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->timestamps();
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
         });
 
         for ($i = 0; $i < 5; $i++) {
