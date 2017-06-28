@@ -56,7 +56,14 @@ class AkadController extends Controller
 
     public function crud_list(Request $request)
     {
+        $akad = Akad::all();
+        $akad = $akad->map(function($item, $key) {
+            return [$item->id, $item->nama_debitur, Fasilitas::find($item->fasilitas_id)->name,
+                    $item->plafond, Notaris::find($item->notaris_id)->name,
+                    $item->jam_akad_mulai, $item->jam_akad_selesai,
+                    Pendamping::find($item->pendamping_id)->name, PIC::find($item->p_i_c_id)->name];
+        });
         $all = $request->all();
-        return ['draw' => (int) $all['draw'], 'recordsTotal' => 0, 'recordsFiltered' => 0, 'data' => []];
+        return ['draw' => (int) $all['draw'], 'recordsTotal' => 0, 'recordsFiltered' => 0, 'data' => $akad];
     }
 }
