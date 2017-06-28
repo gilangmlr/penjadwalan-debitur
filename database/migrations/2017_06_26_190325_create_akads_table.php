@@ -28,7 +28,7 @@ class CreateAkadsTable extends Migration
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
         });
 
-        for ($i = 0; $i < 5; $i++) {
+        for ($i = 1; $i < 6; $i++) {
             $jamMulai = time() + (3600 * $i);
             $jamSelesai = $jamMulai + 3600;
             DB::table('akads')->insert(

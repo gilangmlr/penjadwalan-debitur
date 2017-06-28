@@ -25,7 +25,7 @@ class CreateUsersTable extends Migration
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
         });
 
-        for ($i = 0; $i < 5; $i++) {
+        for ($i = 1; $i < 6; $i++) {
             DB::table('users')->insert(
                 ['name' => 'Karyawan ' . $i, 'nik' => $i,
                  'email' => 'k' . $i . '@d.m', 'password' => Hash::make('pass' . $i)]
