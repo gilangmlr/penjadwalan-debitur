@@ -64,6 +64,9 @@ class AkadController extends Controller
                     Pendamping::find($item->pendamping_id)->name, PIC::find($item->p_i_c_id)->name];
         });
         $all = $request->all();
-        return ['draw' => (int) $all['draw'], 'recordsTotal' => 0, 'recordsFiltered' => 0, 'data' => $akad];
+
+        $recordsTotal = count($akad);
+        $recordsFiltered = $recordsTotal;
+        return ['draw' => (int) $all['draw'], 'recordsTotal' => $recordsTotal, 'recordsFiltered' => $recordsFiltered, 'data' => $akad];
     }
 }
