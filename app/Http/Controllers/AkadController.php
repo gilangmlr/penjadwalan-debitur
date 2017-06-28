@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 use App\Notaris;
 use App\Fasilitas;
@@ -24,9 +25,6 @@ class AkadController extends Controller
         $this->middleware('auth');
     }
 
-    /**
-     * @return \Illuminate\Http\Response
-     */
     public function view_create()
     {
         $notaris = Notaris::all();
@@ -36,6 +34,11 @@ class AkadController extends Controller
         $ruangan = Ruangan::all();
         return view('akad_create', ["notaris" => $notaris, "fasilitas" => $fasilitas,
                                     "pendamping" => $pendamping, "pic" => $pic, "ruangan" => $ruangan]);
+    }
+
+    public function view_list()
+    {
+        return view('akad_list');
     }
 
     public function crud_create(Request $request)
@@ -49,5 +52,11 @@ class AkadController extends Controller
                  'jam_akad_selesai' => date("Y-m-d H:i:s", strtotime($all['jam-akad-selesai'])),
                  'ruangan_id' => $all['id-ruangan']]
             );
+    }
+
+    public function crud_list(Request $request)
+    {
+        $all = $request->all();
+        return ['draw' => (int) $all['draw'], 'recordsTotal' => 0, 'recordsFiltered' => 0, 'data' => []];
     }
 }
