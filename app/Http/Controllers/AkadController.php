@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
 use App\Notaris;
@@ -44,8 +45,9 @@ class AkadController extends Controller
                 ['notaris_id' => $all['id-notaris'], 'nama_debitur' => $all['nama-debitur'],
                  'fasilitas_id' => $all['id-fasilitas'], 'plafond' => (int) $all['plafond'],
                  'pendamping_id' => $all['id-pendamping'], 'p_i_c_id' => $all['id-pic'],
-                 'jam_akad_mulai' => strtotime($all['jam-akad-mulai']),
-                 'jam-akad-selesai' => strtotime($all['jam-akad-selesai']),'ruangan_id' => $i,]
+                 'jam_akad_mulai' => date("Y-m-d H:i:s", strtotime($all['jam-akad-mulai'])),
+                 'jam_akad_selesai' => date("Y-m-d H:i:s", strtotime($all['jam-akad-selesai'])),
+                 'ruangan_id' => $all['id-ruangan']]
             );
     }
 }
