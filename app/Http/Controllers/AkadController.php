@@ -94,8 +94,8 @@ class AkadController extends Controller
 
         $akad = DB::table('akads')->select('akads.*');
         
-        $table_name = ['fasilitas', 'notaris', 'pendampings', 'p_i_cs'];
-        $akad_fk = ['fasilitas_id', 'notaris_id', 'pendamping_id', 'p_i_c_id'];
+        $table_name = ['fasilitas', 'notaris', 'pendampings', 'p_i_cs', 'ruangans'];
+        $akad_fk = ['fasilitas_id', 'notaris_id', 'pendamping_id', 'p_i_c_id', 'ruangan_id'];
         foreach ($table_name as $key => $value) {
             $akad = $akad->leftJoin($value, 'akads.' . $akad_fk[$key], '=', $value . '.id');
         }
@@ -103,7 +103,7 @@ class AkadController extends Controller
         if (!is_null($all['search']['value'])) {
             $columns = ['akads.id', 'akads.nama_debitur', 'fasilitas.name', 'akads.plafond',
                         'notaris.name', 'akads.jam_akad_mulai', 'akads.jam_akad_selesai',
-                        'pendampings.name', 'p_i_cs.name'];
+                        'pendampings.name', 'p_i_cs.name', 'ruangans.name'];
 
             foreach ($columns as $key => $value) {
                 $akad = $akad->orWhere($value, 'like', '%' . $all['search']['value'] . '%');
@@ -126,6 +126,9 @@ class AkadController extends Controller
                 }
                 else if ($key == 8) {
                     $column_name = 'p_i_cs.name';
+                }
+                else if ($key == 9) {
+                    $column_name = 'ruangans.name';
                 }
                 else {
                     continue;
@@ -164,9 +167,10 @@ class AkadController extends Controller
         $akad = $akad->offset($all['start'])->limit($all['length'])->get();
         $akad = $akad->map(function($item, $key) {
             return [$item->id, $item->nama_debitur, Fasilitas::find($item->fasilitas_id)->name,
-                    $item->plafond, Notaris::find($item->notaris_id)->name,
+                    'Rp. ' . number_format($item->plafond, 0 , '' , '.') . ',-', Notaris::find($item->notaris_id)->name,
                     $item->jam_akad_mulai, $item->jam_akad_selesai,
-                    Pendamping::find($item->pendamping_id)->name, PIC::find($item->p_i_c_id)->name];
+                    Pendamping::find($item->pendamping_id)->name,
+                    PIC::find($item->p_i_c_id)->name, Ruangan::find($item->ruangan_id)->name];
         });
 
         return ['draw' => (int) $all['draw'], 'recordsTotal' => $recordsTotal, 'recordsFiltered' => $recordsFiltered, 'data' => $akad];
