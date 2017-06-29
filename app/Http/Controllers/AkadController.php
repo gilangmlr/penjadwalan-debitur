@@ -54,16 +54,74 @@ class AkadController extends Controller
             );
     }
 
+    public function get_db_table_name_from_datatables_column_index($idx) {
+        switch($idx) {
+            case 0:
+                return 'akad';
+                break;
+            case 1:
+                return 'akad';
+                break;
+            case 2:
+                return 'fasilitas';
+                break;
+            case 3:
+                return 'akad';
+                break;
+            case 4:
+                return 'notaris';
+                break;
+            case 5:
+                return 'akad';
+                break;
+            case 6:
+                return 'akad';
+                break;
+            case 7:
+                return 'pendamping';
+                break;
+            case 8:
+                return 'p_i_cs';
+                break;
+        }
+    }
+
     public function crud_list(Request $request)
     {
-        $akad = Akad::all();
+        $all = $request->all();
+
+        $akad = DB::table('akads')->select('akads.*');
+        if ($request->has('order')) {
+            foreach($all['order'] as $arr) {
+                if ($arr['column'] == 2) {
+                    $table_name = 'fasilitas';
+                    $akad_fk = $table_name . '_id';
+                }
+                else if ($arr['column'] == 4) {
+                    $table_name = 'notaris';
+                    $akad_fk = $table_name . '_id';
+                }
+                else if ($arr['column'] == 7) {
+                    $table_name = 'pendampings';
+                    $akad_fk = 'pendamping_id';
+                }
+                else if ($arr['column'] == 8) {
+                    $table_name = 'p_i_cs';
+                    $akad_fk = 'p_i_c_id';
+                }
+
+                $akad = $akad->leftJoin($table_name, 'akads.' . $akad_fk,
+                        '=', $table_name . '.id')
+                        ->orderBy($table_name . '.name', $arr['dir']);
+            }
+        }
+        $akad = $akad->get();
         $akad = $akad->map(function($item, $key) {
             return [$item->id, $item->nama_debitur, Fasilitas::find($item->fasilitas_id)->name,
                     $item->plafond, Notaris::find($item->notaris_id)->name,
                     $item->jam_akad_mulai, $item->jam_akad_selesai,
                     Pendamping::find($item->pendamping_id)->name, PIC::find($item->p_i_c_id)->name];
         });
-        $all = $request->all();
 
         $recordsTotal = count($akad);
         $recordsFiltered = $recordsTotal;
