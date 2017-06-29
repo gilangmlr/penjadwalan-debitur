@@ -52,6 +52,8 @@ class AkadController extends Controller
                  'jam_akad_selesai' => date("Y-m-d H:i:s", strtotime($all['jam-akad-selesai'])),
                  'ruangan_id' => $all['id-ruangan']]
             );
+
+        return redirect()->route('view-akad-list');
     }
 
     public function get_db_table_name_from_datatables_column_index($idx) {
@@ -115,7 +117,10 @@ class AkadController extends Controller
                         ->orderBy($table_name . '.name', $arr['dir']);
             }
         }
-        $akad = $akad->get();
+        $recordsTotal = count($akad->get());
+        $recordsFiltered = $recordsTotal;
+        
+        $akad = $akad->offset($all['start'])->limit($all['length'])->get();
         $akad = $akad->map(function($item, $key) {
             return [$item->id, $item->nama_debitur, Fasilitas::find($item->fasilitas_id)->name,
                     $item->plafond, Notaris::find($item->notaris_id)->name,
@@ -123,8 +128,6 @@ class AkadController extends Controller
                     Pendamping::find($item->pendamping_id)->name, PIC::find($item->p_i_c_id)->name];
         });
 
-        $recordsTotal = count($akad);
-        $recordsFiltered = $recordsTotal;
         return ['draw' => (int) $all['draw'], 'recordsTotal' => $recordsTotal, 'recordsFiltered' => $recordsFiltered, 'data' => $akad];
     }
 }
