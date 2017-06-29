@@ -27,20 +27,6 @@
                                 <th class="text-center">Ruangan</th>
                             </tr>
                         </thead>
-                        <tfoot>
-                            <tr>
-                                <th class="text-center">No</th>
-                                <th class="text-center">Nama Debitur</th>
-                                <th class="text-center">Fasilitas</th>
-                                <th class="text-center">Plafond</th>
-                                <th class="text-center">Notaris</th>
-                                <th class="text-center">Jam Akad</th>
-                                <th class="text-center">Jam Selesai</th>
-                                <th class="text-center">Pendamping</th>
-                                <th class="text-center">PIC</th>
-                                <th class="text-center">Ruangan</th>
-                            </tr>
-                        </tfoot>
                     </table>
                 </div>
             </div>
