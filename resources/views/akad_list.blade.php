@@ -12,33 +12,33 @@
                 <div class="panel-heading">Daftar Akad</div>
 
                 <div class="panel-body">
-                    <table id="table_id" class="table table-striped table-bordered">
+                    <table id="table_id" class="table table-striped table-bordered" width="100%">
                         <thead>
                             <tr>
-                                <th>No</th>
-                                <th>Nama Debitur</th>
-                                <th>Fasilitas</th>
-                                <th>Plafond</th>
-                                <th>Notaris</th>
-                                <th>Jam Akad</th>
-                                <th>Jam Selesai Akad</th>
-                                <th>Pendamping</th>
-                                <th>PIC</th>
-                                <th>Ruangan</th>
+                                <th class="text-center">No</th>
+                                <th class="text-center">Nama Debitur</th>
+                                <th class="text-center">Fasilitas</th>
+                                <th class="text-center">Plafond</th>
+                                <th class="text-center">Notaris</th>
+                                <th class="text-center">Jam Mulai</th>
+                                <th class="text-center">Jam Selesai</th>
+                                <th class="text-center">Pendamping</th>
+                                <th class="text-center">PIC</th>
+                                <th class="text-center">Ruangan</th>
                             </tr>
                         </thead>
                         <tfoot>
                             <tr>
-                                <th>No</th>
-                                <th>Nama Debitur</th>
-                                <th>Fasilitas</th>
-                                <th>Plafond</th>
-                                <th>Notaris</th>
-                                <th>Jam Akad</th>
-                                <th>Jam Selesai Akad</th>
-                                <th>Pendamping</th>
-                                <th>PIC</th>
-                                <th>Ruangan</th>
+                                <th class="text-center">No</th>
+                                <th class="text-center">Nama Debitur</th>
+                                <th class="text-center">Fasilitas</th>
+                                <th class="text-center">Plafond</th>
+                                <th class="text-center">Notaris</th>
+                                <th class="text-center">Jam Akad</th>
+                                <th class="text-center">Jam Selesai</th>
+                                <th class="text-center">Pendamping</th>
+                                <th class="text-center">PIC</th>
+                                <th class="text-center">Ruangan</th>
                             </tr>
                         </tfoot>
                     </table>
@@ -56,13 +56,15 @@
     $(document).ready(function() {
         var table = $('#table_id').DataTable({
             dom: "<'row'<'col-sm-6'l><'.col-sm-6.form-inline'<'#search.pull-right'>>>" +
-"<'row'<'col-sm-12'tr>>" +
-"<'row'<'col-sm-5'i><'col-sm-7'p>>",
+                 "<'row'<'col-sm-12'tr>>" +
+                 "<'row'<'col-sm-5'i><'col-sm-7'p>>",
             ordering: true,
             order: [],
             autoWidth: false,
             columnDefs: [
-                {'targets': [0, 1, 3, 5, 6], 'orderable': false}
+                {orderable: false, targets: [0, 1, 3, 5, 6]},
+                {className: 'text-center', targets: [0, 2, 4, 5, 6, 7, 8, 9]},
+                {className: 'text-right', targets: 3}
             ],
             processing: true,
             serverSide: true,

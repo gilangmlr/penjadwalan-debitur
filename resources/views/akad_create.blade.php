@@ -115,7 +115,7 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('jam-akad-mulai') ? ' has-error' : '' }}">
-                            <label for="jam-akad-mulai" class="col-md-4 control-label">Jam Akad</label>
+                            <label for="jam-akad-mulai" class="col-md-4 control-label">Jam Mulai</label>
 
                             <div class="col-md-6">
                                 <div class="input-group clockpicker">
@@ -134,7 +134,7 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('jam-akad-selesai') ? ' has-error' : '' }}">
-                            <label for="jam-akad-selesai" class="col-md-4 control-label">Jam Akad Selesai</label>
+                            <label for="jam-akad-selesai" class="col-md-4 control-label">Jam Selesai</label>
 
                             <div class="col-md-6">
                                 <div class="input-group clockpicker">

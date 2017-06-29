@@ -166,9 +166,16 @@ class AkadController extends Controller
         
         $akad = $akad->offset($all['start'])->limit($all['length'])->get();
         $akad = $akad->map(function($item, $key) {
+            $plafond = 'Rp. ' . number_format($item->plafond, 0 , '' , '.') . ',-';
+            
+            $jam_mulai = explode(':', explode(' ', $item->jam_akad_mulai)[1]);
+            $jam_mulai = $jam_mulai[0] . ':' . $jam_mulai[1];
+
+            $jam_selesai = explode(':', explode(' ', $item->jam_akad_selesai)[1]);
+            $jam_selesai = $jam_selesai[0] . ':' . $jam_selesai[1];
+
             return [$item->id, $item->nama_debitur, Fasilitas::find($item->fasilitas_id)->name,
-                    'Rp. ' . number_format($item->plafond, 0 , '' , '.') . ',-', Notaris::find($item->notaris_id)->name,
-                    $item->jam_akad_mulai, $item->jam_akad_selesai,
+                    $plafond, Notaris::find($item->notaris_id)->name, $jam_mulai, $jam_selesai,
                     Pendamping::find($item->pendamping_id)->name,
                     PIC::find($item->p_i_c_id)->name, Ruangan::find($item->ruangan_id)->name];
         });
