@@ -7,7 +7,7 @@
 @section('content')
 <div class="container">
     <div class="row">
-        <div class="col-md-10 col-md-offset-1">
+        <div class="col-md-12 col-md-offset-0">
             <div class="panel panel-default">
                 <div class="panel-heading">Daftar Akad</div>
 
@@ -52,7 +52,16 @@
 <script src="{{ asset('js/dataTables.bootstrap.min.js') }}"></script>
 <script type="text/javascript">
     $(document).ready(function() {
-        $('#table_id').DataTable({
+        // Setup - add a text input to each footer cell
+        $('#table_id tfoot th').each( function () {
+            var title = $(this).text();
+            if (title == 'Pendamping' || title == 'PIC') {
+                $(this).html('<input type="text" placeholder="Search ' + title + '" />');
+            }
+        });
+     
+        var table = $('#table_id').DataTable({
+            dom: 'lrtip',
             ordering: true,
             order: [],
             columnDefs: [
@@ -61,6 +70,19 @@
             processing: true,
             serverSide: true,
             ajax: '/crud-akad-list'
+        });
+     
+        // Apply the search
+        table.columns().every(function() {
+            var that = this;
+     
+            $('input', this.footer()).on('keyup change', function() {
+                if (that.search() !== this.value) {
+                    that
+                        .search( this.value )
+                        .draw();
+                }
+            });
         });
     });
 </script>

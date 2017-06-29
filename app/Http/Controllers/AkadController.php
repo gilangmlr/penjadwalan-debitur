@@ -100,36 +100,61 @@ class AkadController extends Controller
             $akad = $akad->leftJoin($value, 'akads.' . $akad_fk[$key], '=', $value . '.id');
         }
 
-        if ($request->has('order')) {
-            foreach($all['order'] as $arr) {
-                if ($arr['column'] == 2) {
-                    $table_name = 'fasilitas';
-                    $akad_fk = $table_name . '_id';
-                }
-                else if ($arr['column'] == 4) {
-                    $table_name = 'notaris';
-                    $akad_fk = $table_name . '_id';
-                }
-                else if ($arr['column'] == 7) {
-                    $table_name = 'pendampings';
-                    $akad_fk = 'pendamping_id';
-                }
-                else if ($arr['column'] == 8) {
-                    $table_name = 'p_i_cs';
-                    $akad_fk = 'p_i_c_id';
-                }
-
-                $akad = $akad->orderBy($table_name . '.name', $arr['dir']);
-            }
-        }
-
-        if ($request->has('search')) {
+        if (!is_null($all['search']['value'])) {
             $columns = ['akads.id', 'akads.nama_debitur', 'fasilitas.name', 'akads.plafond',
                         'notaris.name', 'akads.jam_akad_mulai', 'akads.jam_akad_selesai',
                         'pendampings.name', 'p_i_cs.name'];
 
             foreach ($columns as $key => $value) {
                 $akad = $akad->orWhere($value, 'like', '%' . $all['search']['value'] . '%');
+            }
+        }
+
+        foreach ($all['columns'] as $key => $value) {
+            if ($value['searchable']) {
+                if ($value['search']['value'] == '') {
+                    continue;
+                }
+                if ($key == 2) {
+                    $column_name = 'fasilitas.name';
+                }
+                else if ($key == 4) {
+                    $column_name = 'notaris.name';
+                }
+                else if ($key == 7) {
+                    $column_name = 'pendampings.name';
+                }
+                else if ($key == 8) {
+                    $column_name = 'p_i_cs.name';
+                }
+                else {
+                    continue;
+                }
+
+                $akad = $akad->orWhere($column_name, 'like',
+                                        '%' . $value['search']['value'] . '%');
+            }
+        }
+
+        if ($request->has('order')) {
+            foreach($all['order'] as $arr) {
+                if (!$all['columns'][$arr['column']]['orderable']) {
+                    continue;
+                }
+                if ($arr['column'] == 2) {
+                    $table_name = 'fasilitas';
+                }
+                else if ($arr['column'] == 4) {
+                    $table_name = 'notaris';
+                }
+                else if ($arr['column'] == 7) {
+                    $table_name = 'pendampings';
+                }
+                else if ($arr['column'] == 8) {
+                    $table_name = 'p_i_cs';
+                }
+
+                $akad = $akad->orderBy($table_name . '.name', $arr['dir']);
             }
         }
 
