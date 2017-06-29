@@ -93,6 +93,13 @@ class AkadController extends Controller
         $all = $request->all();
 
         $akad = DB::table('akads')->select('akads.*');
+        
+        $table_name = ['fasilitas', 'notaris', 'pendampings', 'p_i_cs'];
+        $akad_fk = ['fasilitas_id', 'notaris_id', 'pendamping_id', 'p_i_c_id'];
+        foreach ($table_name as $key => $value) {
+            $akad = $akad->leftJoin($value, 'akads.' . $akad_fk[$key], '=', $value . '.id');
+        }
+
         if ($request->has('order')) {
             foreach($all['order'] as $arr) {
                 if ($arr['column'] == 2) {
@@ -112,11 +119,20 @@ class AkadController extends Controller
                     $akad_fk = 'p_i_c_id';
                 }
 
-                $akad = $akad->leftJoin($table_name, 'akads.' . $akad_fk,
-                        '=', $table_name . '.id')
-                        ->orderBy($table_name . '.name', $arr['dir']);
+                $akad = $akad->orderBy($table_name . '.name', $arr['dir']);
             }
         }
+
+        if ($request->has('search')) {
+            $columns = ['akads.id', 'akads.nama_debitur', 'fasilitas.name', 'akads.plafond',
+                        'notaris.name', 'akads.jam_akad_mulai', 'akads.jam_akad_selesai',
+                        'pendampings.name', 'p_i_cs.name'];
+
+            foreach ($columns as $key => $value) {
+                $akad = $akad->orWhere($value, 'like', '%' . $all['search']['value'] . '%');
+            }
+        }
+
         $recordsTotal = count($akad->get());
         $recordsFiltered = $recordsTotal;
         
