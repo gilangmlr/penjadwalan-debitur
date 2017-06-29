@@ -59,6 +59,11 @@
                                         </a>
                                     </li>
                                     <li>
+                                        <a href="{{ route('view-akad-list') }}">
+                                            Lihat Akad
+                                        </a>
+                                    </li>
+                                    <li>
                                         <a href="{{ route('logout') }}"
                                             onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
