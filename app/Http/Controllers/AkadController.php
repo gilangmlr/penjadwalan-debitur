@@ -110,11 +110,9 @@ class AkadController extends Controller
             }
         }
 
+        $column_name = '';
         foreach ($all['columns'] as $key => $value) {
-            if ($value['searchable']) {
-                if ($value['search']['value'] == '') {
-                    continue;
-                }
+            if ($value['searchable'] && !is_null($value['search']['value'])) {
                 if ($key == 2) {
                     $column_name = 'fasilitas.name';
                 }
@@ -133,9 +131,38 @@ class AkadController extends Controller
                 else {
                     continue;
                 }
+            }
+        }
 
-                $akad = $akad->orWhere($column_name, 'like',
-                                        '%' . $value['search']['value'] . '%');
+        if ($column_name != '') {
+            foreach ($all['columns'] as $key => $value) {
+                if ($value['searchable']) {
+                    if ($key == 2) {
+                        $column_name_spec = 'fasilitas.name';
+                    }
+                    else if ($key == 4) {
+                        $column_name_spec = 'notaris.name';
+                    }
+                    else if ($key == 7) {
+                        $column_name_spec = 'pendampings.name';
+                    }
+                    else if ($key == 8) {
+                        $column_name_spec = 'p_i_cs.name';
+                    }
+                    else if ($key == 9) {
+                        $column_name_spec = 'ruangans.name';
+                    }
+                    else {
+                        continue;
+                    }
+
+                    if ($column_name_spec !== $column_name) {
+                        continue;
+                    }
+
+                    $akad = $akad->orWhere($column_name, 'like',
+                                            '%' . $value['search']['value'] . '%');
+                }
             }
         }
 

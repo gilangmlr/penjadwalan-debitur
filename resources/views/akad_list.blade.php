@@ -12,6 +12,19 @@
                 <div class="panel-heading">Daftar Akad</div>
 
                 <div class="panel-body">
+                    <div id="search-group" class="form-inline">
+                      <div class="form-group">
+                        <select id="search-category" class="form-control">
+                            <option value="7">Pendamping</option>
+                            <option value="8">PIC</option>
+                            <option value="9">Ruangan</option>
+                        </select>
+                      </div>
+                      <div class="form-group">
+                        <input type="text" id="search-box" class="form-control">
+                      </div>
+                      <button id="search-button" class="btn btn-default">Cari</button>
+                    </div>
                     <table id="table_id" class="table table-striped table-bordered" width="100%">
                         <thead>
                             <tr>
@@ -57,19 +70,34 @@
             ajax: '/crud-akad-list'
         });
 
-        $('#search').append('<div class="form-group"><input id="search-pendamping" class="form-control" type="text" placeholder="Cari Pendamping" /></div>');
-        $('#search').append('<div class="form-group"><input id="search-pic" class="form-control" type="text" placeholder="Cari PIC" /></div>');
-        $('#search').append('<div class="form-group"><input id="search-ruangan" class="form-control" type="text" placeholder="Cari Ruangan" /></div>');
+        $('#search').append($('#search-group'));
+
+        $('#search-button').on('click', function() {
+            table.column($('#search-category').val()).search($('#search-box').val()).draw();
+        });
+
+        $('#search-box').on('keyup', function(e) {
+            if(e.keyCode == 13) {
+                $('#search-button').click();
+            }
+        });
+        // $('#bs-form-inline').show();
+        // var selectElement = '';
+
+        var selectElement = '<div class="form-group"><select class="form-control"><option value="7">Pendamping</option><option value="8">PIC</option><option value="9">Ruangan</option></select></div>';
+        // $('#search').append('<div class="form-inline">' + selectElement + '<div class="form-group"><input id="search-pendamping" class="form-control" type="text"  /></div></div>');
+        // $('#search').append('<div class="form-group"><input id="search-pic" class="form-control" type="text" placeholder="Cari PIC" /></div>');
+        // $('#search').append('<div class="form-group"><input id="search-ruangan" class="form-control" type="text" placeholder="Cari Ruangan" /></div>');
 
         $('#search-pendamping').on('keyup', function() {
             table.column(7).search(this.value).draw();
         });
-        $('#search-pic').on('keyup', function() {
-            table.column(8).search(this.value).draw();
-        });
-        $('#search-ruangan').on('keyup', function() {
-            table.column(9).search(this.value).draw();
-        });
+        // $('#search-pic').on('keyup', function() {
+        //     table.column(8).search(this.value).draw();
+        // });
+        // $('#search-ruangan').on('keyup', function() {
+        //     table.column(9).search(this.value).draw();
+        // });
     });
 </script>
 @endsection
