@@ -49,6 +49,7 @@
 @endsection
 
 @section('script')
+<script src="{{ asset('js/moment.min.js') }}"></script>
 <script src="{{ asset('js/jquery.dataTables.min.js') }}"></script>
 <script src="{{ asset('js/dataTables.bootstrap.min.js') }}"></script>
 <script type="text/javascript">
@@ -83,8 +84,31 @@
                 data: function ( d ) {
                     d.current_date = Math.round(new Date().getTime() / 1000);
                 }
+            },
+            drawCallback: function(settings) {
+                logRows();
+                // setInterval(logRows, 5000);
             }
         });
+
+        function logRows() {
+            var data = table.rows().data();
+            data.each(function (value, index) {
+                var startTimeMoment = moment(value[5], 'HH:mm');
+                var endTimeMoment = moment(value[6], 'HH:mm');
+                var computerTimeMoment = moment($('#computer-time').text(), 'HH:mm');
+                if (computerTimeMoment.isSameOrAfter(startTimeMoment) &&
+                        computerTimeMoment.isBefore(endTimeMoment)) {
+                    console.log('sedang berlangsung');
+                    var startDiff = computerTimeMoment.diff(startTimeMoment, 'minutes');
+                    console.log('startDiff: ');
+                    console.log(startDiff);
+                    var endDiff = computerTimeMoment.diff(endTimeMoment, 'minutes');
+                    console.log('endDiff: ');
+                    console.log(endDiff);
+                }
+            });
+        }
 
         $('#search').append($('#search-group'));
 
