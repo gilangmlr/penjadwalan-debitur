@@ -30,7 +30,7 @@ class CreateAkadsTable extends Migration
 
         for ($i = 1; $i < 6; $i++) {
             $jamMulai = time() + (3600 * ($i - 1));
-            $jamSelesai = $jamMulai + 3600;
+            $jamSelesai = $jamMulai + 3600 + mt_rand(0, 1800);
             DB::table('akads')->insert(
                 ['notaris_id' => $i, 'nama_debitur' => 'Debitur ' . $i,
                  'fasilitas_id' => $i, 'plafond' => $i * 1000000,
