@@ -82,7 +82,6 @@
                 url: '/crud-akad-list',
                 data: function ( d ) {
                     d.current_date = Math.round(new Date().getTime() / 1000);
-                    d.tz_offset = (new Date()).getTimezoneOffset() / 60;
                 }
             }
         });

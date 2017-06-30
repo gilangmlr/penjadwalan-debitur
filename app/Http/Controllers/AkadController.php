@@ -54,9 +54,9 @@ class AkadController extends Controller
                  'fasilitas_id' => $all['id-fasilitas'], 'plafond' => (int) $all['plafond'],
                  'pendamping_id' => $all['id-pendamping'], 'p_i_c_id' => $all['id-pic'],
                  'jam_akad_mulai' => date("Y-m-d H:i:s",
-                        strtotime($all['jam-akad-mulai']) + ((int) $all['tz-offset']) * 3600),
+                        strtotime($all['jam-akad-mulai']) + (-1 * config('app.user_timezone') * 3600)),
                  'jam_akad_selesai' => date("Y-m-d H:i:s",
-                        strtotime($all['jam-akad-selesai']) + ((int) $all['tz-offset']) * 3600),
+                        strtotime($all['jam-akad-selesai']) + (-1 * config('app.user_timezone') * 3600)),
                  'ruangan_id' => $all['id-ruangan']]
             );
         return redirect()->route('view-akad-list');
@@ -144,11 +144,8 @@ class AkadController extends Controller
 
         if ($request->has('current_date')) {
             $current = date("Y-m-d H:i:s", $all['current_date']);
-            // var_dump($akad->get());
-            // var_dump($current);
             $akad = $akad->where('jam_akad_mulai', '<=', $current)
                             ->where('jam_akad_selesai', '>=', $current);
-            // var_dump($akad->get());
         }
 
         if ($request->has('order')) {
@@ -177,16 +174,17 @@ class AkadController extends Controller
         $recordsFiltered = $recordsTotal;
         
         $akad = $akad->offset($all['start'])->limit($all['length'])->get();
+
         $akad = $akad->map(function($item, $key) use($all) {
             $plafond = 'Rp. ' . number_format($item->plafond, 0 , '' , '.') . ',-';
             
             $jam_mulai = explode(':', explode(' ', $item->jam_akad_mulai)[1]);
-            $jam_mulai_tz = ((int) $jam_mulai[0]) + (((int) $all['tz_offset']) * -1);
+            $jam_mulai_tz = (((int) $jam_mulai[0]) + config('app.user_timezone')) % 24;
             $jam_mulai_tz = $jam_mulai_tz < 10 ? '0' . $jam_mulai_tz : $jam_mulai_tz;
             $jam_mulai = $jam_mulai_tz . ':' . $jam_mulai[1];
 
             $jam_selesai = explode(':', explode(' ', $item->jam_akad_selesai)[1]);
-            $jam_selesai_tz = ((int) $jam_selesai[0]) + (((int) $all['tz_offset']) * -1);
+            $jam_selesai_tz = (((int) $jam_selesai[0]) + config('app.user_timezone')) % 24;
             $jam_selesai_tz = $jam_selesai_tz < 10 ? '0' . $jam_selesai_tz : $jam_selesai_tz;
             $jam_selesai = $jam_selesai_tz . ':' . $jam_selesai[1];
 

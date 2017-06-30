@@ -70,7 +70,6 @@
             ajax: {
                 url: '/crud-akad-list',
                 data: function (d) {
-                    d.tz_offset = (new Date()).getTimezoneOffset() / 60;
                 }
             }
         });
