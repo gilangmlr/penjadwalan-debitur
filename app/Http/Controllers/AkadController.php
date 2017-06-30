@@ -143,9 +143,9 @@ class AkadController extends Controller
         }
 
         if ($request->has('current_date')) {
-            $current = date("Y-m-d H:i:s", $all['current_date']);
-            $akad = $akad->where('jam_akad_mulai', '<=', $current)
-                            ->where('jam_akad_selesai', '>=', $current);
+            $current = date("Y-m-d", $all['current_date']);
+            $akad = $akad->whereDate('jam_akad_mulai', '<=', $current)
+                            ->whereDate('jam_akad_selesai', '>=', $current);
         }
 
         if ($request->has('order')) {
