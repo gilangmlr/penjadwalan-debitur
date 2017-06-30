@@ -81,23 +81,6 @@
                 $('#search-button').click();
             }
         });
-        // $('#bs-form-inline').show();
-        // var selectElement = '';
-
-        var selectElement = '<div class="form-group"><select class="form-control"><option value="7">Pendamping</option><option value="8">PIC</option><option value="9">Ruangan</option></select></div>';
-        // $('#search').append('<div class="form-inline">' + selectElement + '<div class="form-group"><input id="search-pendamping" class="form-control" type="text"  /></div></div>');
-        // $('#search').append('<div class="form-group"><input id="search-pic" class="form-control" type="text" placeholder="Cari PIC" /></div>');
-        // $('#search').append('<div class="form-group"><input id="search-ruangan" class="form-control" type="text" placeholder="Cari Ruangan" /></div>');
-
-        $('#search-pendamping').on('keyup', function() {
-            table.column(7).search(this.value).draw();
-        });
-        // $('#search-pic').on('keyup', function() {
-        //     table.column(8).search(this.value).draw();
-        // });
-        // $('#search-ruangan').on('keyup', function() {
-        //     table.column(9).search(this.value).draw();
-        // });
     });
 </script>
 @endsection
