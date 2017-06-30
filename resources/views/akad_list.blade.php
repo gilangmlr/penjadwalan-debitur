@@ -61,7 +61,7 @@
             order: [],
             autoWidth: false,
             columnDefs: [
-                {orderable: false, targets: [0, 1, 3, 5, 6]},
+                {orderable: false, targets: [0, 1, 3, 5, 6, 9]},
                 {className: 'text-center', targets: [0, 2, 4, 5, 6, 7, 8, 9]},
                 {className: 'text-right', targets: 3}
             ],
