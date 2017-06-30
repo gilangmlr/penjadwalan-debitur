@@ -41,6 +41,11 @@ class AkadController extends Controller
         return view('akad_list');
     }
 
+    public function view_monitor()
+    {
+        return view('akad_monitor');
+    }
+
     public function crud_create(Request $request)
     {
         $all = $request->all();
@@ -54,38 +59,6 @@ class AkadController extends Controller
             );
 
         return redirect()->route('view-akad-list');
-    }
-
-    public function get_db_table_name_from_datatables_column_index($idx) {
-        switch($idx) {
-            case 0:
-                return 'akad';
-                break;
-            case 1:
-                return 'akad';
-                break;
-            case 2:
-                return 'fasilitas';
-                break;
-            case 3:
-                return 'akad';
-                break;
-            case 4:
-                return 'notaris';
-                break;
-            case 5:
-                return 'akad';
-                break;
-            case 6:
-                return 'akad';
-                break;
-            case 7:
-                return 'pendamping';
-                break;
-            case 8:
-                return 'p_i_cs';
-                break;
-        }
     }
 
     public function crud_list(Request $request)
@@ -164,6 +137,12 @@ class AkadController extends Controller
                                             '%' . $value['search']['value'] . '%');
                 }
             }
+        }
+
+        if ($request->has('current_date')) {
+            $current = date("Y-m-d H:i:s", $all['current_date']);
+            $akad = $akad->where('jam_akad_mulai', '<=', $current)
+                            ->where('jam_akad_selesai', '=>', $current);
         }
 
         if ($request->has('order')) {
