@@ -67,7 +67,12 @@
             ],
             processing: true,
             serverSide: true,
-            ajax: '/crud-akad-list'
+            ajax: {
+                url: '/crud-akad-list',
+                data: function (d) {
+                    d.tz_offset = (new Date()).getTimezoneOffset() / 60;
+                }
+            }
         });
 
         $('#search').append($('#search-group'));

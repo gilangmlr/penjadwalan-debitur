@@ -177,6 +177,8 @@
                                 </button>
                             </div>
                         </div>
+
+                        <input type="hidden" name="tz-offset" id="tz-offset">
                     </form>
                 </div>
             </div>
@@ -187,6 +189,7 @@
 
 @section('script')
 <script type="text/javascript">
+    $('#tz-offset').val((new Date()).getTimezoneOffset() / 60);
     function prependedZeroTime(date) {
         var H = date.getHours();
         var HH = H;
