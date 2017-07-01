@@ -9,6 +9,10 @@
         .bg-danger {
             background-color: #f2dede !important; 
         }
+
+        .bg-info {
+            background-color: #d9edf7 !important; 
+        }
     </style>
 @endsection
 
@@ -118,37 +122,51 @@
         function checkNotif() {
             var data = table.rows().data();
             data.each(function (value, index) {
-                var startTimeMoment = moment(value[5], 'HH:mm');
-                var endTimeMoment = moment(value[6], 'HH:mm');
+                var startTimeMoment = moment.unix(value.jamMulai.timestamp);
+                var endTimeMoment = moment.unix(value.jamSelesai.timestamp);
                 var computerTimeMoment = moment($('#computer-time').text(), 'HH:mm');
 
                 if (computerTimeMoment.isSameOrAfter(startTimeMoment) &&
                         computerTimeMoment.isBefore(endTimeMoment)) {
+                    // on going
                     $(table.row(index).node()).addClass('bg-success');
                     // console.log('sedang berlangsung');
                     var startDiff = computerTimeMoment.diff(startTimeMoment, 'minutes');
                     // console.log('startDiff: ');
                     // console.log(startDiff);
-                    // var endDiff = computerTimeMoment.diff(endTimeMoment, 'minutes');
+                    var endDiff = computerTimeMoment.diff(endTimeMoment, 'minutes');
                     // console.log('endDiff: ');
                     // console.log(endDiff);
-                    if (startDiff > 60) {
+                    if (startDiff >= 45) {
                         if (!$(table.row(index).node()).hasClass('bg-danger')) {
                             $(table.row(index).node()).removeClass('bg-success');
                             $(table.row(index).node()).addClass('bg-danger');
-                            var msg = value[9] + ' dengan ' + value[1] + ' sudah melebihi satu jam';
+                            var msg = value['ruangan'] + ' dengan ' + value['namaDebitur'] + ' akan selesai pada pukul ' + value.jamSelesai.time;
                             $.notify({
                                 message: msg
                             },{
                                 type: 'danger',
-                                delay: 0
+                                delay: (((-1 * endDiff) * 60) - 30) * 1000
                             });
                         }
                     }
                 }
-                else {
+                else if (computerTimeMoment.isAfter(endTimeMoment)) {
+                    // done
+
                     $(table.row(index).node()).removeClass('bg-success');
                     $(table.row(index).node()).removeClass('bg-danger');
+
+                    $(table.row(index).node()).addClass('bg-info');
+
+                    console.log(computerTimeMoment);
+                    console.log(endTimeMoment);
+                }
+                else {
+                    // not yet
+                    $(table.row(index).node()).removeClass('bg-success');
+                    $(table.row(index).node()).removeClass('bg-danger');
+                    $(table.row(index).node()).removeClass('bg-info');
                 }
             });
         }
