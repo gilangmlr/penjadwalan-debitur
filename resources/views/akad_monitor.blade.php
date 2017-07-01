@@ -121,7 +121,8 @@
                             $.notify({
                                 message: msg
                             },{
-                                type: 'danger'
+                                type: 'danger',
+                                delay: 0
                             });
                         }
                     }
