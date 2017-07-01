@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('stylesheet')
-    <link href="{{ asset('css/dataTables.bootstrap.min.css') }}" rel="stylesheet">
 @endsection
 
 @section('content')
@@ -49,8 +48,6 @@
 @endsection
 
 @section('script')
-<script src="{{ asset('js/jquery.dataTables.min.js') }}"></script>
-<script src="{{ asset('js/dataTables.bootstrap.min.js') }}"></script>
 <script type="text/javascript">
     $(document).ready(function() {
         var table = $('#table_id').DataTable({

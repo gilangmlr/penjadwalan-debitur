@@ -6,7 +6,12 @@
  */
 
 require('./bootstrap');
-require('../cdnjs/bootstrap-clockpicker.js');
+require('../lib/bootstrap-clockpicker/bootstrap-clockpicker.js');
+require('../lib/bootstrap-clockpicker/bootstrap-clockpicker.js');
+require('../lib/dataTables/jquery.dataTables.min.js');
+require('../lib/dataTables/dataTables.bootstrap.min.js');
+window.moment = require('moment');
+require('../lib/bootstrap-notify/bootstrap-notify.min.js');
 
 // window.Vue = require('vue');
 

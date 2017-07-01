@@ -8,4 +8,7 @@
 // Bootstrap
 @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
 
-@import "../cdnjs/bootstrap-clockpicker";
+@import "../lib/bootstrap-clockpicker/bootstrap-clockpicker";
+
+@import "../lib/dataTables/dataTables.bootstrap.min";
+@import "../lib/animate/animate";

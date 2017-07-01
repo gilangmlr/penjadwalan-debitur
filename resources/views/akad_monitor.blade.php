@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('stylesheet')
-    <link href="{{ asset('css/dataTables.bootstrap.min.css') }}" rel="stylesheet">
     <style type="text/css">
         .bg-success {
             background-color: #dff0d8 !important; 
@@ -58,10 +57,6 @@
 @endsection
 
 @section('script')
-<script src="{{ asset('js/moment.min.js') }}"></script>
-<script src="{{ asset('js/bootstrap-notify.min.js') }}"></script>
-<script src="{{ asset('js/jquery.dataTables.min.js') }}"></script>
-<script src="{{ asset('js/dataTables.bootstrap.min.js') }}"></script>
 <script type="text/javascript">
     function prependedZeroTime(date) {
         var H = date.getHours();
