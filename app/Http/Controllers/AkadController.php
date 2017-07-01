@@ -175,21 +175,33 @@ class AkadController extends Controller
 
         $akad = $akad->map(function($item, $key) use($all) {
             $plafond = 'Rp. ' . number_format($item->plafond, 0 , '' , '.') . ',-';
-            
+        
+            $akad_eloquent = Akad::find($item->id);
+            $jam_mulai_timestamp = $akad_eloquent->jam_akad_mulai->timestamp +
+                                    (config('app.user_timezone' * 3600));
             $jam_mulai = explode(':', explode(' ', $item->jam_akad_mulai)[1]);
             $jam_mulai_tz = (((int) $jam_mulai[0]) + config('app.user_timezone')) % 24;
             $jam_mulai_tz = $jam_mulai_tz < 10 ? '0' . $jam_mulai_tz : $jam_mulai_tz;
-            $jam_mulai = $jam_mulai_tz . ':' . $jam_mulai[1];
+            $jam_mulai_time = $jam_mulai_tz . ':' . $jam_mulai[1];
+            $jam_mulai = ['timestamp' => $jam_mulai_timestamp,
+                          'time' => $jam_mulai_time];
 
+            $jam_selesai_timestamp = $akad_eloquent->jam_akad_selesai->timestamp +
+                                    (config('app.user_timezone' * 3600));
             $jam_selesai = explode(':', explode(' ', $item->jam_akad_selesai)[1]);
             $jam_selesai_tz = (((int) $jam_selesai[0]) + config('app.user_timezone')) % 24;
             $jam_selesai_tz = $jam_selesai_tz < 10 ? '0' . $jam_selesai_tz : $jam_selesai_tz;
-            $jam_selesai = $jam_selesai_tz . ':' . $jam_selesai[1];
+            $jam_selesai_time = $jam_selesai_tz . ':' . $jam_selesai[1];
+            $jam_selesai = ['timestamp' => $jam_selesai_timestamp,
+                          'time' => $jam_selesai_time];
 
-            return [$item->id, $item->nama_debitur, Fasilitas::find($item->fasilitas_id)->name,
-                    $plafond, Notaris::find($item->notaris_id)->name, $jam_mulai, $jam_selesai,
-                    Pendamping::find($item->pendamping_id)->name,
-                    PIC::find($item->p_i_c_id)->name, Ruangan::find($item->ruangan_id)->name];
+            return ['no' => $item->id, 'namaDebitur' => $item->nama_debitur,
+                    'fasilitas' => Fasilitas::find($item->fasilitas_id)->name,
+                    'plafond' => $plafond, 'notaris' => Notaris::find($item->notaris_id)->name,
+                    'jamMulai' => $jam_mulai, 'jamSelesai' => $jam_selesai,
+                    'pendamping' => Pendamping::find($item->pendamping_id)->name,
+                    'pIC' => PIC::find($item->p_i_c_id)->name,
+                    'ruangan' => Ruangan::find($item->ruangan_id)->name];
         });
 
         return ['draw' => (int) $all['draw'], 'recordsTotal' => $recordsTotal, 'recordsFiltered' => $recordsFiltered, 'data' => $akad];

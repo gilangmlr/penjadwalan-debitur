@@ -78,6 +78,25 @@
             order: [],
             autoWidth: false,
             columnDefs: [
+                {data: 'no', name: 'no', targets: 0},
+                {data: 'namaDebitur', name: 'namaDebitur', targets: 1},
+                {data: 'fasilitas', name: 'fasilitas', targets: 2},
+                {data: 'plafond', name: 'plafond', targets: 3},
+                {data: 'notaris', name: 'notaris', targets: 4},
+                {data: {
+                    _: 'jamMulai.time',
+                    sort: 'jamMulai.timestamp'
+                    },
+                    name: 'jamMulai', targets: 5},
+                {data: {
+                    _: 'jamSelesai.time',
+                    sort: 'jamSelesai.timestamp'
+                    },
+                    name: 'jamSelesai', targets: 6},
+                {data: 'pendamping', name: 'pendamping', targets: 7},
+                {data: 'pIC', name: 'pIC', targets: 8},
+                {data: 'ruangan', name: 'ruangan', targets: 9},
+
                 {orderable: false, targets: [0, 1, 3, 5, 6, 9]},
                 {className: 'text-center', targets: [0, 2, 4, 5, 6, 7, 8, 9]},
                 {className: 'text-right', targets: 3}

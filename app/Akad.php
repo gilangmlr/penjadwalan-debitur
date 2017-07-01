@@ -7,6 +7,19 @@ use Illuminate\Database\Eloquent\Model;
 class Akad extends Model
 {
     /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = [
+        'jam_akad_mulai',
+        'jam_akad_selesai',
+        'created_at',
+        'updated_at',
+        'deleted_at'
+    ];
+
+    /**
      * Get the notaris that owns the akad.
      */
     public function notaris()
