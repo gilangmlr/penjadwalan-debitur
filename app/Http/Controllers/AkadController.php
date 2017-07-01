@@ -80,7 +80,6 @@ class AkadController extends Controller
                         'pendampings.name', 'p_i_cs.name', 'ruangans.name'];
 
             foreach ($columns as $key => $value) {
-                echo 'lewat global search';
                 $akad = $akad->orWhere($value, 'like', '%' . $all['search']['value'] . '%');
             }
         }
@@ -135,7 +134,6 @@ class AkadController extends Controller
                         continue;
                     }
 
-                    echo 'lewat column search';
                     $akad = $akad->orWhere($column_name, 'like',
                                             '%' . $value['search']['value'] . '%');
                 }
