@@ -70,6 +70,11 @@
                                         </a>
                                     </li>
                                     <li>
+                                        <a href="{{ route('view-akad-edit') }}">
+                                            Ubah Akad
+                                        </a>
+                                    </li>
+                                    <li>
                                         <a href="{{ route('logout') }}"
                                             onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
