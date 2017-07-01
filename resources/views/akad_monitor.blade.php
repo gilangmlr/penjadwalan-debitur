@@ -2,6 +2,15 @@
 
 @section('stylesheet')
     <link href="{{ asset('css/dataTables.bootstrap.min.css') }}" rel="stylesheet">
+    <style type="text/css">
+        .bg-success {
+            background-color: #dff0d8 !important; 
+        }
+
+        .bg-danger {
+            background-color: #f2dede !important; 
+        }
+    </style>
 @endsection
 
 @section('content')
@@ -50,6 +59,7 @@
 
 @section('script')
 <script src="{{ asset('js/moment.min.js') }}"></script>
+<script src="{{ asset('js/bootstrap-notify.min.js') }}"></script>
 <script src="{{ asset('js/jquery.dataTables.min.js') }}"></script>
 <script src="{{ asset('js/dataTables.bootstrap.min.js') }}"></script>
 <script type="text/javascript">
@@ -86,26 +96,44 @@
                 }
             },
             drawCallback: function(settings) {
-                logRows();
-                // setInterval(logRows, 5000);
+                checkNotif();
+                setInterval(checkNotif, 5000);
             }
         });
 
-        function logRows() {
+        function checkNotif() {
             var data = table.rows().data();
             data.each(function (value, index) {
                 var startTimeMoment = moment(value[5], 'HH:mm');
                 var endTimeMoment = moment(value[6], 'HH:mm');
                 var computerTimeMoment = moment($('#computer-time').text(), 'HH:mm');
+
                 if (computerTimeMoment.isSameOrAfter(startTimeMoment) &&
                         computerTimeMoment.isBefore(endTimeMoment)) {
-                    console.log('sedang berlangsung');
+                    $(table.row(index).node()).addClass('bg-success');
+                    // console.log('sedang berlangsung');
                     var startDiff = computerTimeMoment.diff(startTimeMoment, 'minutes');
-                    console.log('startDiff: ');
-                    console.log(startDiff);
-                    var endDiff = computerTimeMoment.diff(endTimeMoment, 'minutes');
-                    console.log('endDiff: ');
-                    console.log(endDiff);
+                    // console.log('startDiff: ');
+                    // console.log(startDiff);
+                    // var endDiff = computerTimeMoment.diff(endTimeMoment, 'minutes');
+                    // console.log('endDiff: ');
+                    // console.log(endDiff);
+                    if (startDiff > 60) {
+                        if (!$(table.row(index).node()).hasClass('bg-danger')) {
+                            $(table.row(index).node()).removeClass('bg-success');
+                            $(table.row(index).node()).addClass('bg-danger');
+                            var msg = value[9] + ' dengan ' + value[1] + ' sudah melebihi satu jam';
+                            $.notify({
+                                message: msg
+                            },{
+                                type: 'danger'
+                            });
+                        }
+                    }
+                }
+                else {
+                    $(table.row(index).node()).removeClass('bg-success');
+                    $(table.row(index).node()).removeClass('bg-danger');
                 }
             });
         }
