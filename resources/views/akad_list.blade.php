@@ -37,6 +37,7 @@
                                 <th class="text-center">Pendamping</th>
                                 <th class="text-center">PIC</th>
                                 <th class="text-center">Ruangan</th>
+                                <th class="text-center"></th>
                             </tr>
                         </thead>
                     </table>
@@ -48,12 +49,15 @@
 @endsection
 
 @section('script')
+<script src="{{ asset('js/bootstrap3-dialog.min.js') }}"></script>
 <script type="text/javascript">
     $(document).ready(function() {
         function timestampToDateTime(data, type, full, meta) {
             moment.locale('id');
             return moment.unix(data).format('LLL');
         }
+
+        var lihatDefaultContent = '<button class="btn btn-default btn-sm center-block"><span class="glyphicon glyphicon-search"></span> Lihat</button>';
         var table = $('#table_id').DataTable({
             dom: "<'row'<'col-sm-6'l><'.col-sm-6.form-inline'<'#search.pull-right'>>>" +
                  "<'row'<'col-sm-12'tr>>" +
@@ -82,8 +86,11 @@
                 {data: 'pendamping', name: 'pendamping', targets: 7},
                 {data: 'pIC', name: 'pIC', targets: 8},
                 {data: 'ruangan', name: 'ruangan', targets: 9},
+                {data: null , name: 'action', targets: 10,
+                    defaultContent: lihatDefaultContent},
 
-                {orderable: false, targets: [0, 1, 3, 5, 6, 9]},
+                {visible: false, targets: [2, 3, 9]},
+                {orderable: false, targets: [0, 1, 3, 5, 6, 9, 10]},
                 {className: 'text-center', targets: [0, 2, 4, 5, 6, 7, 8, 9]},
                 {className: 'text-right', targets: 3}
             ],
