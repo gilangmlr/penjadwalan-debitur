@@ -2,16 +2,22 @@
 
 @section('stylesheet')
     <style type="text/css">
-        .bg-success {
+        .csbg-success {
             background-color: #dff0d8 !important; 
+            /*background-color: #008000 !important; 
+            color: white;*/
         }
 
-        .bg-danger {
+        .csbg-danger {
             background-color: #f2dede !important; 
+            /*background-color: #800000 !important; 
+            color: white;*/
         }
 
-        .bg-info {
-            background-color: #d9edf7 !important; 
+        .csbg-info {
+            /*background-color: #d9edf7 !important; */
+            background-color: #000080 !important; 
+            color: white;
         }
     </style>
 @endsection
@@ -129,7 +135,7 @@
                 if (computerTimeMoment.isSameOrAfter(startTimeMoment) &&
                         computerTimeMoment.isBefore(endTimeMoment)) {
                     // on going
-                    $(table.row(index).node()).addClass('bg-success');
+                    $(table.row(index).node()).addClass('csbg-success');
                     // console.log('sedang berlangsung');
                     var startDiff = computerTimeMoment.diff(startTimeMoment, 'minutes');
                     // console.log('startDiff: ');
@@ -138,9 +144,9 @@
                     // console.log('endDiff: ');
                     // console.log(endDiff);
                     if (startDiff >= 45) {
-                        if (!$(table.row(index).node()).hasClass('bg-danger')) {
-                            $(table.row(index).node()).removeClass('bg-success');
-                            $(table.row(index).node()).addClass('bg-danger');
+                        if (!$(table.row(index).node()).hasClass('csbg-danger')) {
+                            $(table.row(index).node()).removeClass('csbg-success');
+                            $(table.row(index).node()).addClass('csbg-danger');
                             var msg = value['ruangan'] + ' dengan ' + value['namaDebitur'] + ' akan selesai pada pukul ' + value.jamSelesai.time;
                             $.notify({
                                 message: msg
@@ -154,19 +160,19 @@
                 else if (computerTimeMoment.isAfter(endTimeMoment)) {
                     // done
 
-                    $(table.row(index).node()).removeClass('bg-success');
-                    $(table.row(index).node()).removeClass('bg-danger');
+                    $(table.row(index).node()).removeClass('csbg-success');
+                    $(table.row(index).node()).removeClass('csbg-danger');
 
-                    $(table.row(index).node()).addClass('bg-info');
+                    $(table.row(index).node()).addClass('csbg-info');
 
                     // console.log(computerTimeMoment);
                     // console.log(endTimeMoment);
                 }
                 else {
                     // not yet
-                    $(table.row(index).node()).removeClass('bg-success');
-                    $(table.row(index).node()).removeClass('bg-danger');
-                    $(table.row(index).node()).removeClass('bg-info');
+                    $(table.row(index).node()).removeClass('csbg-success');
+                    $(table.row(index).node()).removeClass('csbg-danger');
+                    $(table.row(index).node()).removeClass('csbg-info');
                 }
             });
         }
