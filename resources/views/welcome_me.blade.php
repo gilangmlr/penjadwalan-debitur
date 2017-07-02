@@ -78,6 +78,9 @@
             @endif
 
             <div class="content">
+                <img src="{{asset('imgs/bca.jpg')}}" height="81">
+                <img src="{{asset('imgs/bca-kpr.jpg')}}" height="81">
+                <img src="{{asset('imgs/bca-kpr-key.jpg')}}" height="81">
                 <div class="title m-b-md">
                     Penjadwalan Debitur
                 </div>
