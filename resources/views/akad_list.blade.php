@@ -159,7 +159,7 @@
                 'edit': {
                     label: 'Edit',
                     callback: function() {
-                        window.location.href = '/view-akad-edit';
+                        window.location.href = '/view-akad-edit/' + data.no;
                     }
                 },
                 'Close': function(){},

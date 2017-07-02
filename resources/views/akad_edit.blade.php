@@ -8,16 +8,20 @@
                 <div class="panel-heading">Ubah Akad</div>
 
                 <div class="panel-body">
-                    <form class="form-horizontal" role="form" method="POST" action="{{ route('crud-akad-create') }}">
+                    <form class="form-horizontal" role="form" method="POST" action="{{ route('crud-akad-edit') }}">
                         {{ csrf_field() }}
 
                         <div class="form-group{{ $errors->has('nama-notaris') ? ' has-error' : '' }}">
                             <label for="nama-notaris" class="col-md-4 control-label">Nama Notaris</label>
 
                             <div class="col-md-6">
-                                <select id="nama-notaris" type="text" class="form-control" name="id-notaris" value="{{ old('nama-notaris') }}">
+                                <select id="nama-notaris" type="text" class="form-control" name="id-notaris" value="{{ $notaris_id or old('nama-notaris') }}">
                                     @foreach($notaris as $nota)
-                                        <option value="{{ $nota->id }}">{{$nota->name}}</option>
+                                        @if($nota->id == $notaris_id || $nota->id == old('nama-notaris'))
+                                            <option value="{{ $nota->id }}" selected>{{$nota->name}}</option>
+                                        @else
+                                            <option value="{{ $nota->id }}">{{$nota->name}}</option>
+                                        @endif
                                     @endforeach
                                 </select>
 
@@ -33,7 +37,7 @@
                             <label for="nama-debitur" class="col-md-4 control-label">Nama Debitur</label>
 
                             <div class="col-md-6">
-                                <input id="nama-debitur" type="text" class="form-control" name="nama-debitur" value="{{ old('nama-debitur') }}" required autofocus>
+                                <input id="nama-debitur" type="text" class="form-control" name="nama-debitur" value="{{ $nama_debitur or old('nama-debitur') }}" required autofocus>
 
                                 @if ($errors->has('nama-debitur'))
                                     <span class="help-block">
@@ -47,9 +51,13 @@
                             <label for="fasilitas" class="col-md-4 control-label">Fasilitas</label>
 
                             <div class="col-md-6">
-                                <select id="fasilitas" type="text" class="form-control" name="id-fasilitas" value="{{ old('fasilitas') }}">
+                                <select id="fasilitas" type="text" class="form-control" name="id-fasilitas" value="{{ $fasilitas_id or old('fasilitas') }}">
                                     @foreach($fasilitas as $fasil)
-                                        <option value="{{ $fasil->id }}">{{$fasil->name}}</option>
+                                        @if($fasil->id == $fasilitas_id || $fasil->id == old('fasilitas'))
+                                            <option value="{{ $fasil->id }}" selected>{{$fasil->name}}</option>
+                                        @else
+                                            <option value="{{ $fasil->id }}">{{$fasil->name}}</option>
+                                        @endif
                                     @endforeach
                                 </select>
 
@@ -67,7 +75,7 @@
                             <div class="col-md-6">
                                 <div class="input-group">
                                     <span class="input-group-addon">Rp.</span>
-                                    <input id="plafond" type="text" class="form-control" name="plafond" value="{{ old('plafond') }}" required autofocus>
+                                    <input id="plafond" type="text" class="form-control" name="plafond" value="{{ $plafond or old('plafond') }}" required autofocus>
                                 </div>
 
                                 @if ($errors->has('plafond'))
@@ -82,9 +90,13 @@
                             <label for="pendamping" class="col-md-4 control-label">Pendamping</label>
 
                             <div class="col-md-6">
-                                <select id="pendamping" type="text" class="form-control" name="id-pendamping" value="{{ old('pendamping') }}">
+                                <select id="pendamping" type="text" class="form-control" name="id-pendamping" value="{{ $pendamping_id or old('pendamping') }}">
                                     @foreach($pendamping as $pendam)
-                                        <option value="{{ $pendam->id }}">{{$pendam->name}}</option>
+                                        @if($pendam->id == $pendamping_id || $pendam->id == old('pendamping'))
+                                            <option value="{{ $pendam->id }}" selected>{{$pendam->name}}</option>
+                                        @else
+                                            <option value="{{ $pendam->id }}">{{$pendam->name}}</option>
+                                        @endif
                                     @endforeach
                                 </select>
 
@@ -100,9 +112,13 @@
                             <label for="pic" class="col-md-4 control-label">PIC</label>
 
                             <div class="col-md-6">
-                                <select id="pic" type="text" class="form-control" name="id-pic" value="{{ old('pic') }}">
+                                <select id="pic" type="text" class="form-control" name="id-pic" value="{{ $p_i_c_id or old('pic') }}">
                                     @foreach($pic as $pi)
-                                        <option value="{{ $pi->id }}">{{$pi->name}}</option>
+                                        @if($pi->id == $p_i_c_id || $pi->id == old('pic'))
+                                            <option value="{{ $pi->id }}" selected>{{$pi->name}}</option>
+                                        @else
+                                            <option value="{{ $pi->id }}">{{$pi->name}}</option>
+                                        @endif
                                     @endforeach
                                 </select>
 
@@ -119,7 +135,7 @@
 
                             <div class="col-md-6">
                                 <div class="input-group clockpicker">
-                                    <input id="jam-akad-mulai" type="text" class="form-control" name="jam-akad-mulai" value="{{ old('jam-akad-mulai') }}" required readonly style="background-color: white; cursor: pointer;">
+                                    <input id="jam-akad-mulai" type="text" class="form-control" name="jam-akad-mulai" value="{{ $jam_akad_mulai or old('jam-akad-mulai') }}" required readonly style="background-color: white; cursor: pointer;">
                                     <span class="input-group-addon">
                                         <span class="glyphicon glyphicon-time"></span>
                                     </span>
@@ -138,7 +154,7 @@
 
                             <div class="col-md-6">
                                 <div class="input-group clockpicker">
-                                    <input id="jam-akad-selesai" type="text" class="form-control" name="jam-akad-selesai" value="{{ old('jam-akad-selesai') }}" required readonly style="background-color: white; cursor: pointer;">
+                                    <input id="jam-akad-selesai" type="text" class="form-control" name="jam-akad-selesai" value="{{ $jam_akad_selesai or old('jam-akad-selesai') }}" required readonly style="background-color: white; cursor: pointer;">
                                     <span class="input-group-addon">
                                         <span class="glyphicon glyphicon-time"></span>
                                     </span>
@@ -156,9 +172,13 @@
                             <label for="ruangan" class="col-md-4 control-label">Ruangan</label>
 
                             <div class="col-md-6">
-                                <select id="ruangan" type="text" class="form-control" name="id-ruangan" value="{{ old('ruangan') }}">
+                                <select id="ruangan" type="text" class="form-control" name="id-ruangan" value="{{ $ruangan_id or old('ruangan') }}">
                                     @foreach($ruangan as $ruang)
-                                        <option value="{{ $ruang->id }}">{{$ruang->name}}</option>
+                                        @if($ruang->id == $ruangan_id || $ruang->id == old('ruangan'))
+                                            <option value="{{ $ruang->id }}" selected>{{$ruang->name}}</option>
+                                        @else
+                                            <option value="{{ $ruang->id }}">{{$ruang->name}}</option>
+                                        @endif
                                     @endforeach
                                 </select>
 
@@ -177,6 +197,8 @@
                                 </button>
                             </div>
                         </div>
+
+                        <input type="hidden" id="id-akad" name="id-akad"></input>
                     </form>
                 </div>
             </div>
@@ -201,22 +223,22 @@
     var date = new Date();
     var formattedTime = prependedZeroTime(date);
     
-    $("#jam-akad-mulai").val(formattedTime).attr("placeholder", formattedTime);
+    $("#jam-akad-mulai").attr("placeholder", this.value);
     $("#jam-akad-mulai").parent().clockpicker({
         placement: 'top',
         align: 'left',
-        donetext: 'Done',
-        default: formattedTime
+        donetext: 'Done'
     });
 
     date.setHours(date.getHours() + 1);
     formattedTime = prependedZeroTime(date);
-    $("#jam-akad-selesai").val(formattedTime).attr("placeholder", formattedTime);
+    $("#jam-akad-selesai").attr("placeholder", this.value);
     $("#jam-akad-selesai").parent().clockpicker({
         placement: 'top',
         align: 'left',
-        donetext: 'Done',
-        default: formattedTime
+        donetext: 'Done'
     });
+
+    $('#id-akad').val(window.location.href.split("/").pop());
 </script>
 @endsection

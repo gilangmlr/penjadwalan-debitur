@@ -46,15 +46,33 @@ class AkadController extends Controller
         return view('akad_monitor');
     }
 
-    public function view_edit()
+    public function view_edit($id)
     {
         $notaris = Notaris::all();
         $fasilitas = Fasilitas::all();
         $pendamping = Pendamping::all();
         $pic = PIC::all();
         $ruangan = Ruangan::all();
-        return view('akad_edit', ["notaris" => $notaris, "fasilitas" => $fasilitas,
-                                    "pendamping" => $pendamping, "pic" => $pic, "ruangan" => $ruangan]);
+
+        $akad = Akad::find($id);
+
+        $jam_mulai = explode(':', $akad->jam_akad_mulai->addHours(config('app.user_timezone'))->toTimeString());
+        $jam_akad_mulai = $jam_mulai[0] . ':' . $jam_mulai[1];
+        $jam_selesai = explode(':', $akad->jam_akad_selesai->addHours(config('app.user_timezone'))->toTimeString());
+        $jam_akad_selesai = $jam_selesai[0] . ':' . $jam_selesai[1];
+
+        $values = ['notaris_id' => $akad->notaris_id,
+        'nama_debitur' => $akad->nama_debitur,
+        'fasilitas_id' => $akad->fasilitas_id,
+        'plafond' => $akad->plafond,
+        'pendamping_id' => $akad->pendamping_id,
+        'p_i_c_id' => $akad->p_i_c_id,
+        'jam_akad_mulai' => $jam_akad_mulai,
+        'jam_akad_selesai' => $jam_akad_selesai,
+        'ruangan_id' => $akad->ruangan_id];
+        $options = ["notaris" => $notaris, "fasilitas" => $fasilitas,
+                                    "pendamping" => $pendamping, "pic" => $pic, "ruangan" => $ruangan];
+        return view('akad_edit', array_merge($options, $values));
     }
 
     public function crud_create(Request $request)
@@ -70,6 +88,26 @@ class AkadController extends Controller
                         strtotime($all['jam-akad-selesai']) + (-1 * config('app.user_timezone') * 3600)),
                  'ruangan_id' => $all['id-ruangan']]
             );
+        return redirect()->route('view-akad-list');
+    }
+
+    public function crud_edit(Request $request) {
+        $all = $request->all();
+        $akad = Akad::find($all['id-akad']);
+
+        $akad->notaris_id = $all['id-notaris'];
+        $akad->nama_debitur = $all['nama-debitur'];
+        $akad->fasilitas_id = $all['id-fasilitas'];
+        $akad->plafond = $all['plafond'];
+        $akad->pendamping_id = $all['id-pendamping'];
+        $akad->p_i_c_id = $all['id-pic'];
+        $akad->jam_akad_mulai = date("Y-m-d H:i:s",
+                        strtotime($all['jam-akad-mulai']) + (-1 * config('app.user_timezone') * 3600));
+        $akad->jam_akad_selesai = date("Y-m-d H:i:s",
+                        strtotime($all['jam-akad-selesai']) + (-1 * config('app.user_timezone') * 3600));
+        $akad->ruangan_id = $all['id-ruangan'];
+        $akad->save();
+
         return redirect()->route('view-akad-list');
     }
 
