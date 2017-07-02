@@ -93,6 +93,11 @@ class AkadController extends Controller
         $all = $request->all();
         $akad = Akad::find($all['id-akad']);
 
+        if ($request->has('hapus') && $all['hapus']) {
+            $akad->delete();
+            return redirect()->route('view-akad-list');
+        }
+
         $akad->notaris_id = $all['id-notaris'];
         $akad->nama_debitur = $all['nama-debitur'];
         $akad->fasilitas_id = $all['id-fasilitas'];

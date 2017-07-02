@@ -193,6 +193,7 @@
                                 <button type="submit" class="btn btn-primary">
                                     Ubah
                                 </button>
+                                <input name="hapus" type="submit" class="btn btn-danger" value="Hapus">
                             </div>
                         </div>
 
