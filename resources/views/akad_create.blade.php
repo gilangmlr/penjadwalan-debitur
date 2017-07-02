@@ -185,18 +185,6 @@
 
 @section('script')
 <script type="text/javascript">
-    var userTimezone{{ config('app.user_timzone') }};
-    function prependedZeroTime(date) {
-        var H = date.getHours();
-        var HH = H;
-        if (H < 10) HH = "0" + H;
-        var m = date.getMinutes();
-        var mm = m;
-        if (m < 10) mm = "0" + m;
-
-        return HH + ":" + mm;
-    }
-
     var momentObj = moment();
     var formattedTime = momentObj.format('YYYY-MM-DD HH:mm:ss');
     

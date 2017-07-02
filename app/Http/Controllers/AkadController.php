@@ -56,10 +56,8 @@ class AkadController extends Controller
 
         $akad = Akad::find($id);
 
-        $jam_mulai = explode(':', $akad->jam_akad_mulai->addHours(config('app.user_timezone'))->toTimeString());
-        $jam_akad_mulai = $jam_mulai[0] . ':' . $jam_mulai[1];
-        $jam_selesai = explode(':', $akad->jam_akad_selesai->addHours(config('app.user_timezone'))->toTimeString());
-        $jam_akad_selesai = $jam_selesai[0] . ':' . $jam_selesai[1];
+        $jam_akad_mulai = $akad->jam_akad_mulai->addHours(config('app.user_timezone'))->toTimeString();
+        $jam_akad_selesai = $akad->jam_akad_selesai->addHours(config('app.user_timezone'))->toTimeString();
 
         $values = ['notaris_id' => $akad->notaris_id,
         'nama_debitur' => $akad->nama_debitur,
