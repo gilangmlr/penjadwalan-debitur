@@ -254,12 +254,12 @@
             this.submit();
         }
         else if (timeDiff < 0) {
-            $('#jam-akad-selesai').parent().parent().append($('<span class="help-block text-danger"><strong>Durasi negatif! Otomatis menjadi satu jam.</strong></span>'));
+            $('#jam-akad-selesai').parent().parent().find('.warning').html($('<span class="help-block text-danger"><strong>Durasi negatif! Otomatis menjadi satu jam.</strong></span>'));
             $('#jam-akad-selesai').val(jamMulaiMoment.add(1, 'h').format('YYYY-MM-DD HH:mm:ss'));
             $("#jam-akad-selesai").parent().datetimepicker('update');
         }
         else {
-            $('#jam-akad-selesai').parent().parent().append($('<span class="help-block text-danger"><strong>Maksimum satu jam! Otomatis menjadi satu jam.</strong></span>'));
+            $('#jam-akad-selesai').parent().parent().find('.warning').html($('<span class="help-block text-danger"><strong>Maksimum satu jam! Otomatis menjadi satu jam.</strong></span>'));
             $('#jam-akad-selesai').val(jamMulaiMoment.add(1, 'h').format('YYYY-MM-DD HH:mm:ss'));
             $("#jam-akad-selesai").parent().datetimepicker('update');
         }
