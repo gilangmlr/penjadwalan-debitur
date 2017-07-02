@@ -220,8 +220,13 @@
         e.preventDefault();
         var jamMulaiMoment = moment($('#jam-akad-mulai').val(), 'YYYY-MM-DD HH:mm:ss');
         var jamSelesaiMoment = moment($('#jam-akad-selesai').val(), 'YYYY-MM-DD HH:mm:ss');
-        if (jamSelesaiMoment.diff(jamMulaiMoment, 'minutes') <= 60) {
+        var timeDiff =jamSelesaiMoment.diff(jamMulaiMoment, 'minutes');
+        if (0 <= timeDiff && timeDiff <= 60) {
             this.submit();
+        }
+        else if (timeDiff < 0) {
+            $('#jam-akad-selesai').parent().parent().append($('<span class="help-block text-danger"><strong>Durasi negatif! Otomatis menjadi satu jam.</strong></span>'));
+            $('#jam-akad-selesai').val(jamMulaiMoment.add(1, 'h').format('YYYY-MM-DD HH:mm:ss'));
         }
         else {
             $('#jam-akad-selesai').parent().parent().append($('<span class="help-block text-danger"><strong>Maksimum satu jam! Otomatis menjadi satu jam.</strong></span>'));

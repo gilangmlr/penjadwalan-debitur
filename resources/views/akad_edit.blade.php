@@ -193,7 +193,10 @@
                                 <button type="submit" class="btn btn-primary">
                                     Ubah
                                 </button>
-                                <input name="hapus" type="submit" class="btn btn-danger" value="Hapus">
+                                <button type="submit" class="btn btn-danger" onclick="document.getElementById('mode').value = 'delete'">
+                                    Hapus
+                                </button>
+                                <input id="mode" name="mode" type="hidden" value="edit">
                             </div>
                         </div>
 
@@ -211,7 +214,7 @@
     var momentObj = moment();
     var formattedTime = momentObj.format('YYYY-MM-DD HH:mm:ss');
     
-    $("#jam-akad-mulai").val(formattedTime).attr("placeholder", formattedTime);
+    $("#jam-akad-mulai").attr("placeholder", formattedTime);
     $("#jam-akad-mulai").parent().datetimepicker({
         format: 'yyyy-mm-dd hh:ii:ss',
         initialDate: new Date(),
@@ -226,7 +229,7 @@
 
     formattedTime = momentObj.add(1, 'h').format('YYYY-MM-DD HH:mm:ss');
 
-    $("#jam-akad-selesai").val(formattedTime).attr("placeholder", formattedTime);
+    $("#jam-akad-selesai").attr("placeholder", formattedTime);
     $("#jam-akad-selesai").parent().datetimepicker({
         format: 'yyyy-mm-dd hh:ii:ss',
         initialDate: new Date(),
@@ -243,8 +246,13 @@
         e.preventDefault();
         var jamMulaiMoment = moment($('#jam-akad-mulai').val(), 'YYYY-MM-DD HH:mm:ss');
         var jamSelesaiMoment = moment($('#jam-akad-selesai').val(), 'YYYY-MM-DD HH:mm:ss');
-        if (jamSelesaiMoment.diff(jamMulaiMoment, 'minutes') <= 60) {
+        var timeDiff =jamSelesaiMoment.diff(jamMulaiMoment, 'minutes');
+        if (0 <= timeDiff && timeDiff <= 60) {
             this.submit();
+        }
+        else if (timeDiff < 0) {
+            $('#jam-akad-selesai').parent().parent().append($('<span class="help-block text-danger"><strong>Durasi negatif! Otomatis menjadi satu jam.</strong></span>'));
+            $('#jam-akad-selesai').val(jamMulaiMoment.add(1, 'h').format('YYYY-MM-DD HH:mm:ss'));
         }
         else {
             $('#jam-akad-selesai').parent().parent().append($('<span class="help-block text-danger"><strong>Maksimum satu jam! Otomatis menjadi satu jam.</strong></span>'));

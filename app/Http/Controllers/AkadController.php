@@ -56,8 +56,8 @@ class AkadController extends Controller
 
         $akad = Akad::find($id);
 
-        $jam_akad_mulai = $akad->jam_akad_mulai->addHours(config('app.user_timezone'))->toTimeString();
-        $jam_akad_selesai = $akad->jam_akad_selesai->addHours(config('app.user_timezone'))->toTimeString();
+        $jam_akad_mulai = $akad->jam_akad_mulai->addHours(config('app.user_timezone'))->toDateTimeString();
+        $jam_akad_selesai = $akad->jam_akad_selesai->addHours(config('app.user_timezone'))->toDateTimeString();
 
         $values = ['notaris_id' => $akad->notaris_id,
         'nama_debitur' => $akad->nama_debitur,
@@ -93,23 +93,24 @@ class AkadController extends Controller
         $all = $request->all();
         $akad = Akad::find($all['id-akad']);
 
-        if ($request->has('hapus') && $all['hapus']) {
+        if ($all['mode'] == 'delete') {
             $akad->delete();
             return redirect()->route('view-akad-list');
         }
-
-        $akad->notaris_id = $all['id-notaris'];
-        $akad->nama_debitur = $all['nama-debitur'];
-        $akad->fasilitas_id = $all['id-fasilitas'];
-        $akad->plafond = $all['plafond'];
-        $akad->pendamping_id = $all['id-pendamping'];
-        $akad->p_i_c_id = $all['id-pic'];
-        $akad->jam_akad_mulai = date("Y-m-d H:i:s",
-                        strtotime($all['jam-akad-mulai']) + (-1 * config('app.user_timezone') * 3600));
-        $akad->jam_akad_selesai = date("Y-m-d H:i:s",
-                        strtotime($all['jam-akad-selesai']) + (-1 * config('app.user_timezone') * 3600));
-        $akad->ruangan_id = $all['id-ruangan'];
-        $akad->save();
+        else {
+            $akad->notaris_id = $all['id-notaris'];
+            $akad->nama_debitur = $all['nama-debitur'];
+            $akad->fasilitas_id = $all['id-fasilitas'];
+            $akad->plafond = $all['plafond'];
+            $akad->pendamping_id = $all['id-pendamping'];
+            $akad->p_i_c_id = $all['id-pic'];
+            $akad->jam_akad_mulai = date("Y-m-d H:i:s",
+                            strtotime($all['jam-akad-mulai']) + (-1 * config('app.user_timezone') * 3600));
+            $akad->jam_akad_selesai = date("Y-m-d H:i:s",
+                            strtotime($all['jam-akad-selesai']) + (-1 * config('app.user_timezone') * 3600));
+            $akad->ruangan_id = $all['id-ruangan'];
+            $akad->save();
+        }
 
         return redirect()->route('view-akad-list');
     }
