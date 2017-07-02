@@ -41,6 +41,89 @@
                             </tr>
                         </thead>
                     </table>
+                    <div class="form-group hidden" id="details-tpl">
+                        <div class="row">
+                            <div class="col-xs-4"><div class="pull-right"><strong>No: </strong></div></div>
+
+                            <div class="col-xs-6">
+                                <div id="no-details" class="pull-left">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-4"><div class="pull-right"><strong>Nama Debitur: </strong></div></div>
+
+                            <div class="col-xs-6">
+                                <div id="nama-debitur-details" class="pull-left">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-4"><div class="pull-right"><strong>Fasilitas: </strong></div></div>
+
+                            <div class="col-xs-6">
+                                <div id="fasilitas-details" class="pull-left">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-4"><div class="pull-right"><strong>Plafond: </strong></div></div>
+
+                            <div class="col-xs-6">
+                                <div id="plafond-details" class="pull-left">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-4"><div class="pull-right"><strong>Notaris: </strong></div></div>
+
+                            <div class="col-xs-6">
+                                <div id="notaris-details" class="pull-left">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-4"><div class="pull-right"><strong>Jam Mulai: </strong></div></div>
+
+                            <div class="col-xs-6">
+                                <div id="jam-mulai-details" class="pull-left">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-4"><div class="pull-right"><strong>Jam Selesai: </strong></div></div>
+
+                            <div class="col-xs-6">
+                                <div id="jam-selesai-details" class="pull-left">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-4"><div class="pull-right"><strong>Pendamping: </strong></div></div>
+
+                            <div class="col-xs-6">
+                                <div id="pendamping-details" class="pull-left">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-4"><div class="pull-right"><strong>PIC: </strong></div></div>
+
+                            <div class="col-xs-6">
+                                <div id="pic-details" class="pull-left">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-4"><div class="pull-right"><strong>Ruangan: </strong></div></div>
+
+                            <div class="col-xs-6">
+                                <div id="ruangan-details" class="pull-left">
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
                 </div>
             </div>
         </div>
@@ -49,16 +132,49 @@
 @endsection
 
 @section('script')
-<script src="{{ asset('js/bootstrap3-dialog.min.js') }}"></script>
+<script src="{{ asset('js/bootbox.min.js') }}"></script>
 <script type="text/javascript">
+    var table;
+    function showDetails(that) {
+        var data = table.row(that.parentNode).data();
+        $('#details-tpl').removeClass('hidden');
+        $('#details-tpl .pull-left').parent().css('padding-left', '0');
+        $('#no-details').html(data.no);
+        $('#nama-debitur-details').html(data.namaDebitur);
+        $('#fasilitas-details').html(data.fasilitas);
+        $('#plafond-details').html(data.plafond);
+        $('#notaris-details').html(data.notaris);
+        moment.locale('id');
+        $('#jam-mulai-details').html(moment.unix(data.jamMulai.timestamp).format('LLL'));
+        $('#jam-selesai-details').html(moment.unix(data.jamMulai.timestamp).format('LLL'));
+        $('#pendamping-details').html(data.pendamping);
+        $('#pic-details').html(data.pIC);
+        $('#ruangan-details').html(data.ruangan);
+        bootbox.dialog({
+            title: 'Details Akad',
+            message: $('#details-tpl').html(),
+            backdrop: true,
+            onEscape: true,
+            buttons: {
+                'edit': {
+                    label: 'Edit',
+                    callback: function() {
+                        window.location.href = '/view-akad-edit';
+                    }
+                },
+                'Close': function(){},
+            }
+        });
+        $('#details-tpl').addClass('hidden');
+    }
     $(document).ready(function() {
         function timestampToDateTime(data, type, full, meta) {
             moment.locale('id');
             return moment.unix(data).format('LLL');
         }
 
-        var lihatDefaultContent = '<button class="btn btn-default btn-sm center-block"><span class="glyphicon glyphicon-search"></span> Lihat</button>';
-        var table = $('#table_id').DataTable({
+        var lihatDefaultContent = '<button onclick="showDetails(this)" class="btn btn-default btn-sm center-block"><span class="glyphicon glyphicon-search"></span> Lihat</button>';
+        table = $('#table_id').DataTable({
             dom: "<'row'<'col-sm-6'l><'.col-sm-6.form-inline'<'#search.pull-right'>>>" +
                  "<'row'<'col-sm-12'tr>>" +
                  "<'row'<'col-sm-5'i><'col-sm-7'p>>",

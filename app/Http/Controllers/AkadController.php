@@ -46,6 +46,17 @@ class AkadController extends Controller
         return view('akad_monitor');
     }
 
+    public function view_edit()
+    {
+        $notaris = Notaris::all();
+        $fasilitas = Fasilitas::all();
+        $pendamping = Pendamping::all();
+        $pic = PIC::all();
+        $ruangan = Ruangan::all();
+        return view('akad_edit', ["notaris" => $notaris, "fasilitas" => $fasilitas,
+                                    "pendamping" => $pendamping, "pic" => $pic, "ruangan" => $ruangan]);
+    }
+
     public function crud_create(Request $request)
     {
         $all = $request->all();
