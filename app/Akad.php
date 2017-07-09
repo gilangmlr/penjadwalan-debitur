@@ -46,7 +46,7 @@ class Akad extends Model
     /**
      * Get the pic that owns the akad.
      */
-    public function pic()
+    public function p_i_c()
     {
         return $this->belongsTo('App\PIC');
     }
