@@ -56,6 +56,7 @@
                                 <th class="text-center">Pendamping</th>
                                 <th class="text-center">PIC</th>
                                 <th class="text-center">Ruangan</th>
+                                <th class="text-center"></th>
                             </tr>
                         </thead>
                     </table>
@@ -67,6 +68,7 @@
 @endsection
 
 @section('script')
+<script src="{{ asset('js/bootbox.min.js') }}"></script>
 <script type="text/javascript">
     function prependedZeroTime(date) {
         var H = date.getHours();
@@ -79,8 +81,53 @@
         return HH + ":" + mm;
     }
 
+    var table;
+
+    function showDetails(that) {
+        var msg = '<div class="form-group" id="comment-tpl">' +
+                        '<div class="row">' +
+                            '<div class="col-xs-4"><div class="pull-right"><strong>Komentar: </strong></div></div>' +
+
+                            '<div class="col-xs-6">' +
+                                '<div id="no-details" class="pull-left">' +
+                                    '<textarea id="komentar" name="komentar" class="form-control"></textarea>' +
+                                '</div>' +
+                            '</div>' +
+                        '</div>' +
+                    '</div>';
+        var data = table.row(that.parentNode).data();
+        bootbox.dialog({
+            title: 'Tambah Komentar Akad',
+            message: $(msg).html(),
+            backdrop: true,
+            onEscape: true,
+            buttons: {
+                'add': {
+                    label: 'Add',
+                    callback: function() {
+                        $.ajax({
+                            type: 'POST',
+                            url: '/crud-akad-comment-create',
+                            data: {
+                                'komentar': $('#komentar').val(),
+                                '_token': $('meta[name=csrf-token]').attr('content'),
+                                'id-akad': data.no
+                            },
+                            success: function() {
+                                window.location.href = '/view-akad-list';
+                            }
+                        });
+                    }
+                },
+                'Close': function(){},
+            }
+        });
+        $('#comment-tpl').addClass('hidden');
+    }
+
     $(document).ready(function() {
-        var table = $('#table_id').DataTable({
+        var commentDefaultContent = '<button onclick="showDetails(this)" class="btn btn-default btn-sm center-block"><span class="glyphicon glyphicon-plus"></span> Komentar</button>';
+        table = $('#table_id').DataTable({
             dom: "<'row'<'col-sm-6'l><'.col-sm-6.form-inline'<'#search.pull-right'>>>" +
                  "<'row'<'col-sm-12'tr>>" +
                  "<'row'<'col-sm-5'i><'col-sm-7'p>>",
@@ -106,6 +153,8 @@
                 {data: 'pendamping', name: 'pendamping', targets: 7},
                 {data: 'pIC', name: 'pIC', targets: 8},
                 {data: 'ruangan', name: 'ruangan', targets: 9},
+                {data: null , name: 'action', targets: 10,
+                    defaultContent: commentDefaultContent},
 
                 {orderable: false, targets: [0, 1, 3, 5, 6, 9]},
                 {className: 'text-center', targets: [0, 2, 4, 5, 6, 7, 8, 9]},

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -87,6 +88,15 @@ class AkadController extends Controller
                  'ruangan_id' => $all['id-ruangan']]
             );
         return redirect()->route('view-akad-list');
+    }
+
+    public function crud_comment_create(Request $request)
+    {
+        $all = $request->all();
+        $user = Auth::user();
+        DB::table('komentars')->insert(
+                ['content' => $all['komentar'], 'user_id' => $user->id, 'akad_id' => $all['id-akad']]
+            );
     }
 
     public function crud_edit(Request $request) {

@@ -27,3 +27,4 @@ Route::get('/view-akad-edit/{id}', 'AkadController@view_edit')->name('view-akad-
 Route::post('/crud-akad-create', 'AkadController@crud_create')->name('crud-akad-create');
 Route::get('/crud-akad-list', 'AkadController@crud_list')->name('crud-akad-list');
 Route::post('/crud-akad-edit', 'AkadController@crud_edit')->name('crud-akad-edit');
+Route::post('/crud-akad-comment-create', 'AkadController@crud_comment_create')->name('crud-akad-comment-create');
