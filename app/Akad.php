@@ -58,4 +58,12 @@ class Akad extends Model
     {
         return $this->belongsTo('App\Ruangan');
     }
+
+    /**
+     * Get the komentars for the akad.
+     */
+    public function komentars()
+    {
+        return $this->hasMany('App\Komentar');
+    }
 }
