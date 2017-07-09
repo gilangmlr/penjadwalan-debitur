@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Carbon\Carbon;
 
 use App\Notaris;
 use App\Fasilitas;
@@ -240,31 +241,32 @@ class AkadController extends Controller
             $plafond = 'Rp. ' . number_format($item->plafond, 0 , '' , '.') . ',-';
         
             $akad_eloquent = Akad::find($item->id);
-            $jam_mulai_timestamp = $akad_eloquent->jam_akad_mulai->timestamp +
-                                    (config('app.user_timezone' * 3600));
-            $jam_mulai = explode(':', explode(' ', $item->jam_akad_mulai)[1]);
-            $jam_mulai_tz = (((int) $jam_mulai[0]) + config('app.user_timezone')) % 24;
-            $jam_mulai_tz = $jam_mulai_tz < 10 ? '0' . $jam_mulai_tz : $jam_mulai_tz;
-            $jam_mulai_time = $jam_mulai_tz . ':' . $jam_mulai[1];
+
+            $jam_mulai_carbon = $akad_eloquent->jam_akad_mulai->addHours(config('app.user_timezone'));
+            $jam_mulai_timestamp = $jam_mulai_carbon->timestamp;
+            $jam_mulai_time = $jam_mulai_carbon->format('H:i');
             $jam_mulai = ['timestamp' => $jam_mulai_timestamp,
                           'time' => $jam_mulai_time];
 
-            $jam_selesai_timestamp = $akad_eloquent->jam_akad_selesai->timestamp +
-                                    (config('app.user_timezone' * 3600));
-            $jam_selesai = explode(':', explode(' ', $item->jam_akad_selesai)[1]);
-            $jam_selesai_tz = (((int) $jam_selesai[0]) + config('app.user_timezone')) % 24;
-            $jam_selesai_tz = $jam_selesai_tz < 10 ? '0' . $jam_selesai_tz : $jam_selesai_tz;
-            $jam_selesai_time = $jam_selesai_tz . ':' . $jam_selesai[1];
+            $jam_selesai_carbon = $akad_eloquent->jam_akad_selesai->addHours(config('app.user_timezone'));
+            $jam_selesai_timestamp = $jam_selesai_carbon->timestamp;
+            $jam_selesai_time = $jam_selesai_carbon->format('H:i');
             $jam_selesai = ['timestamp' => $jam_selesai_timestamp,
                           'time' => $jam_selesai_time];
 
+            $komentars = $akad_eloquent->komentars->map(function($item, $key) {
+                $comment_time = $item->created_at->format('H:i');
+                return ['content' => $item->content, 'user_id' => $item->user_id,
+                        'time' => $comment_time, 'user_name' => $item->user->name];
+            });
+
             return ['no' => $item->id, 'namaDebitur' => $item->nama_debitur,
-                    'fasilitas' => Fasilitas::find($item->fasilitas_id)->name,
-                    'plafond' => $plafond, 'notaris' => Notaris::find($item->notaris_id)->name,
+                    'fasilitas' => $akad_eloquent->fasilitas->name,
+                    'plafond' => $plafond, 'notaris' => $akad_eloquent->notaris->name,
                     'jamMulai' => $jam_mulai, 'jamSelesai' => $jam_selesai,
-                    'pendamping' => Pendamping::find($item->pendamping_id)->name,
-                    'pIC' => PIC::find($item->p_i_c_id)->name,
-                    'ruangan' => Ruangan::find($item->ruangan_id)->name];
+                    'pendamping' => $akad_eloquent->pendamping->name,
+                    'pIC' => $akad_eloquent->p_i_c->name,
+                    'ruangan' => $akad_eloquent->ruangan->name, 'komentar' => $komentars];
         });
 
         return ['draw' => (int) $all['draw'], 'recordsTotal' => $recordsTotal, 'recordsFiltered' => $recordsFiltered, 'data' => $akad];
