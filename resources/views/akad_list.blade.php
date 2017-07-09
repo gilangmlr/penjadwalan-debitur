@@ -38,6 +38,7 @@
                                 <th class="text-center">PIC</th>
                                 <th class="text-center">Ruangan</th>
                                 <th class="text-center"></th>
+                                <th class="text-center"></th>
                             </tr>
                         </thead>
                     </table>
@@ -122,7 +123,13 @@
                                 </div>
                             </div>
                         </div>
-                        
+                        <div class="row">
+                            <hr />
+                            <div class="col-xs-4"><div class="pull-right"><strong>Komentar: </strong></div></div>
+
+                            <div class="col-xs-6" id="komentar">
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -150,6 +157,17 @@
         $('#pendamping-details').html(data.pendamping);
         $('#pic-details').html(data.pIC);
         $('#ruangan-details').html(data.ruangan);
+
+        if (data.komentar.length == 0) {
+            data.komentar = [{'content': 'Tidak ada komentar.',}];
+        }
+        for (var x in data.komentar) {
+            var komen = data.komentar[x];
+            // komen.content = 'walking with that troublesome guy, but little darling watch me change their mind. No sunlight if I lose you baby, no clear skies too babe';
+            var tpl = '<div class="row" ><div class="row"><div class="pull-right">' + (komen.user_id ? komen.user_name + ' (' + komen.user_id + '), ' + komen.time : '') + '</div></div><div class="pull-left">' + komen.content + '</div><div><hr /></div></div>';
+            $('#komentar').append(tpl);
+        }
+
         bootbox.dialog({
             title: 'Details Akad',
             message: $('#details-tpl').html(),
@@ -166,6 +184,7 @@
             }
         });
         $('#details-tpl').addClass('hidden');
+        $('#komentar').html('');
     }
     $(document).ready(function() {
         function timestampToDateTime(data, type, full, meta) {
@@ -202,10 +221,11 @@
                 {data: 'pendamping', name: 'pendamping', targets: 7},
                 {data: 'pIC', name: 'pIC', targets: 8},
                 {data: 'ruangan', name: 'ruangan', targets: 9},
-                {data: null , name: 'action', targets: 10,
+                {data: null, name: 'action', targets: 10,
                     defaultContent: lihatDefaultContent},
+                {data: 'komentar', name: 'komentar', targets: 11},
 
-                {visible: false, targets: [2, 3, 9]},
+                {visible: false, targets: [2, 3, 9, 11]},
                 {orderable: false, targets: [0, 1, 3, 5, 6, 9, 10]},
                 {className: 'text-center', targets: [0, 2, 4, 5, 6, 7, 8, 9]},
                 {className: 'text-right', targets: 3}
