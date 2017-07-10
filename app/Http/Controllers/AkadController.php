@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Validator;
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
@@ -75,9 +77,49 @@ class AkadController extends Controller
         return view('akad_edit', array_merge($options, $values));
     }
 
+    private function is_valid($all, $validator) {
+        $jam_mulai_carbon = Carbon::createFromFormat('Y-m-d H:i:s', $all['jam-akad-mulai'], config('app.user_timezone'))->subHours(config('app.user_timezone'));
+        $jam_selesai_carbon = Carbon::createFromFormat('Y-m-d H:i:s', $all['jam-akad-selesai'], config('app.user_timezone'))->subHours(config('app.user_timezone'));
+        $akads = Akad::where('jam_akad_mulai', '<=', $jam_mulai_carbon)
+                    ->where('jam_akad_selesai', '>=', $jam_selesai_carbon);
+
+        $error = false;
+        foreach ($akads->get() as $k => $v) {
+            if ($v->id == $all['id-akad']) {
+                continue;
+            }
+            if ($v->notaris_id == $all['id-notaris']) {
+                $validator->errors()->add('nama-notaris', 'Notaris tidak tersedia pada waktu tersebut.');
+                dump($v);
+                dd($all);
+                $error = true;
+            }
+            if ($v->pendamping_id == $all['id-pendamping']) {
+                $validator->errors()->add('pendamping', 'Pendamping tidak tersedia pada waktu tersebut.');
+                $error = true;
+            }
+            if ($v->p_i_c_id == $all['id-pic']) {
+                $validator->errors()->add('pic', 'PIC tidak tersedia pada waktu tersebut.');
+                $error = true;
+            }
+            if ($v->ruangan_id == $all['id-ruangan']) {
+                $validator->errors()->add('ruangan', 'Ruangan tidak tersedia pada waktu tersebut.');
+                $error = true;
+            }
+        }
+
+        return !$error;
+    }
+
     public function crud_create(Request $request)
     {
         $all = $request->all();
+        $validator = Validator::make($all, []);
+
+        if (!$this->is_valid($all, $validator)) {
+            return redirect('view-akad-create')->withErrors($validator)->withInput();
+        }
+
         DB::table('akads')->insert(
                 ['notaris_id' => $all['id-notaris'], 'nama_debitur' => $all['nama-debitur'],
                  'fasilitas_id' => $all['id-fasilitas'], 'plafond' => (int) $all['plafond'],
@@ -109,6 +151,12 @@ class AkadController extends Controller
             return redirect()->route('view-akad-list');
         }
         else {
+            $validator = Validator::make($all, []);
+
+            if (!$this->is_valid($all, $validator)) {
+                return redirect('/view-akad-edit/' . $all['id-akad'])->withErrors($validator)->withInput();
+            }
+
             $akad->notaris_id = $all['id-notaris'];
             $akad->nama_debitur = $all['nama-debitur'];
             $akad->fasilitas_id = $all['id-fasilitas'];

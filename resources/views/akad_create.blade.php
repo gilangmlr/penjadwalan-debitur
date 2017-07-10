@@ -15,9 +15,13 @@
                             <label for="nama-notaris" class="col-md-4 control-label">Nama Notaris</label>
 
                             <div class="col-md-6">
-                                <select id="nama-notaris" type="text" class="form-control" name="id-notaris" value="{{ old('nama-notaris') }}">
+                                <select id="nama-notaris" type="text" class="form-control" name="id-notaris" value="{{ $notaris_id or old('nama-notaris') }}">
                                     @foreach($notaris as $nota)
-                                        <option value="{{ $nota->id }}">{{$nota->name}}</option>
+                                        @if($nota->id == old('id-notaris'))
+                                            <option value="{{ $nota->id }}" selected>{{$nota->name}}</option>
+                                        @else
+                                            <option value="{{ $nota->id }}">{{$nota->name}}</option>
+                                        @endif
                                     @endforeach
                                 </select>
 
@@ -47,9 +51,13 @@
                             <label for="fasilitas" class="col-md-4 control-label">Fasilitas</label>
 
                             <div class="col-md-6">
-                                <select id="fasilitas" type="text" class="form-control" name="id-fasilitas" value="{{ old('fasilitas') }}">
+                                <select id="fasilitas" type="text" class="form-control" name="id-fasilitas" value="{{ $fasilitas_id or old('fasilitas') }}">
                                     @foreach($fasilitas as $fasil)
-                                        <option value="{{ $fasil->id }}">{{$fasil->name}}</option>
+                                        @if($fasil->id == old('id-fasilitas'))
+                                            <option value="{{ $fasil->id }}" selected>{{$fasil->name}}</option>
+                                        @else
+                                            <option value="{{ $fasil->id }}">{{$fasil->name}}</option>
+                                        @endif
                                     @endforeach
                                 </select>
 
@@ -82,9 +90,13 @@
                             <label for="pendamping" class="col-md-4 control-label">Pendamping</label>
 
                             <div class="col-md-6">
-                                <select id="pendamping" type="text" class="form-control" name="id-pendamping" value="{{ old('pendamping') }}">
+                                <select id="pendamping" type="text" class="form-control" name="id-pendamping" value="{{ $pendamping_id or old('pendamping') }}">
                                     @foreach($pendamping as $pendam)
-                                        <option value="{{ $pendam->id }}">{{$pendam->name}}</option>
+                                        @if($pendam->id == old('id-pendamping'))
+                                            <option value="{{ $pendam->id }}" selected>{{$pendam->name}}</option>
+                                        @else
+                                            <option value="{{ $pendam->id }}">{{$pendam->name}}</option>
+                                        @endif
                                     @endforeach
                                 </select>
 
@@ -100,9 +112,13 @@
                             <label for="pic" class="col-md-4 control-label">PIC</label>
 
                             <div class="col-md-6">
-                                <select id="pic" type="text" class="form-control" name="id-pic" value="{{ old('pic') }}">
+                                <select id="pic" type="text" class="form-control" name="id-pic" value="{{ $p_i_c_id or old('pic') }}">
                                     @foreach($pic as $pi)
-                                        <option value="{{ $pi->id }}">{{$pi->name}}</option>
+                                        @if($pi->id == old('id-pic'))
+                                            <option value="{{ $pi->id }}" selected>{{$pi->name}}</option>
+                                        @else
+                                            <option value="{{ $pi->id }}">{{$pi->name}}</option>
+                                        @endif
                                     @endforeach
                                 </select>
 

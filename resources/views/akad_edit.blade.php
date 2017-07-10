@@ -17,7 +17,7 @@
                             <div class="col-md-6">
                                 <select id="nama-notaris" type="text" class="form-control" name="id-notaris" value="{{ $notaris_id or old('nama-notaris') }}">
                                     @foreach($notaris as $nota)
-                                        @if($nota->id == $notaris_id || $nota->id == old('nama-notaris'))
+                                        @if($nota->id == $notaris_id || $nota->id == old('id-notaris'))
                                             <option value="{{ $nota->id }}" selected>{{$nota->name}}</option>
                                         @else
                                             <option value="{{ $nota->id }}">{{$nota->name}}</option>
@@ -53,7 +53,7 @@
                             <div class="col-md-6">
                                 <select id="fasilitas" type="text" class="form-control" name="id-fasilitas" value="{{ $fasilitas_id or old('fasilitas') }}">
                                     @foreach($fasilitas as $fasil)
-                                        @if($fasil->id == $fasilitas_id || $fasil->id == old('fasilitas'))
+                                        @if($fasil->id == $fasilitas_id || $fasil->id == old('id-fasilitas'))
                                             <option value="{{ $fasil->id }}" selected>{{$fasil->name}}</option>
                                         @else
                                             <option value="{{ $fasil->id }}">{{$fasil->name}}</option>
@@ -92,7 +92,7 @@
                             <div class="col-md-6">
                                 <select id="pendamping" type="text" class="form-control" name="id-pendamping" value="{{ $pendamping_id or old('pendamping') }}">
                                     @foreach($pendamping as $pendam)
-                                        @if($pendam->id == $pendamping_id || $pendam->id == old('pendamping'))
+                                        @if($pendam->id == $pendamping_id || $pendam->id == old('id-pendamping'))
                                             <option value="{{ $pendam->id }}" selected>{{$pendam->name}}</option>
                                         @else
                                             <option value="{{ $pendam->id }}">{{$pendam->name}}</option>
@@ -114,7 +114,7 @@
                             <div class="col-md-6">
                                 <select id="pic" type="text" class="form-control" name="id-pic" value="{{ $p_i_c_id or old('pic') }}">
                                     @foreach($pic as $pi)
-                                        @if($pi->id == $p_i_c_id || $pi->id == old('pic'))
+                                        @if($pi->id == $p_i_c_id || $pi->id == old('id-pic'))
                                             <option value="{{ $pi->id }}" selected>{{$pi->name}}</option>
                                         @else
                                             <option value="{{ $pi->id }}">{{$pi->name}}</option>
@@ -174,7 +174,7 @@
                             <div class="col-md-6">
                                 <select id="ruangan" type="text" class="form-control" name="id-ruangan" value="{{ $ruangan_id or old('ruangan') }}">
                                     @foreach($ruangan as $ruang)
-                                        @if($ruang->id == $ruangan_id || $ruang->id == old('ruangan'))
+                                        @if($ruang->id == $ruangan_id || $ruang->id == old('id-ruangan'))
                                             <option value="{{ $ruang->id }}" selected>{{$ruang->name}}</option>
                                         @else
                                             <option value="{{ $ruang->id }}">{{$ruang->name}}</option>
