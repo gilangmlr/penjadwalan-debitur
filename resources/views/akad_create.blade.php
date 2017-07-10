@@ -234,6 +234,12 @@
         pickerPosition: "top-left"
     });
 
+    $("#jam-akad-mulai").on('change', function() {
+        var jamMulaiMoment = moment($(this).val(), 'YYYY-MM-DD HH:mm:ss');
+        $('#jam-akad-selesai').val(jamMulaiMoment.add(1, 'h').format('YYYY-MM-DD HH:mm:ss'));
+        $("#jam-akad-selesai").parent().datetimepicker('update');
+    });
+
     $('form').on('submit', function(e){
         e.preventDefault();
         var jamMulaiMoment = moment($('#jam-akad-mulai').val(), 'YYYY-MM-DD HH:mm:ss');
