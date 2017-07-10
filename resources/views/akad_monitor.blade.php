@@ -156,7 +156,7 @@
                 {data: null , name: 'action', targets: 10,
                     defaultContent: commentDefaultContent},
 
-                {orderable: false, targets: [0, 1, 3, 5, 6, 9]},
+                {orderable: false, targets: [0, 1, 3, 5, 6, 9, 10]},
                 {className: 'text-center', targets: [0, 2, 4, 5, 6, 7, 8, 9]},
                 {className: 'text-right', targets: 3}
             ],
@@ -185,13 +185,8 @@
                         computerTimeMoment.isBefore(endTimeMoment)) {
                     // on going
                     $(table.row(index).node()).addClass('csbg-success');
-                    // console.log('sedang berlangsung');
                     var startDiff = computerTimeMoment.diff(startTimeMoment, 'minutes');
-                    // console.log('startDiff: ');
-                    // console.log(startDiff);
                     var endDiff = computerTimeMoment.diff(endTimeMoment, 'minutes');
-                    // console.log('endDiff: ');
-                    // console.log(endDiff);
                     if (startDiff >= 45) {
                         if (!$(table.row(index).node()).hasClass('csbg-danger')) {
                             $(table.row(index).node()).removeClass('csbg-success');
@@ -208,14 +203,10 @@
                 }
                 else if (computerTimeMoment.isAfter(endTimeMoment)) {
                     // done
-
                     $(table.row(index).node()).removeClass('csbg-success');
                     $(table.row(index).node()).removeClass('csbg-danger');
 
                     $(table.row(index).node()).addClass('csbg-info');
-
-                    // console.log(computerTimeMoment);
-                    // console.log(endTimeMoment);
                 }
                 else {
                     // not yet
