@@ -12,6 +12,17 @@
 
                 <div class="panel-body">
                     <div id="search-group" class="form-inline">
+                    <div class="form-group">
+                        <div class="input-group date">
+                            <input id="date-filter" name="date-filter" class="form-control" size="16" type="text" readonly style="background-color: white; cursor: pointer;">
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-remove"></span>
+                            </span>
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </div>
+                      </div>
                       <div class="form-group">
                         <select id="search-category" class="form-control">
                             <option value="7">Pendamping</option>
@@ -194,7 +205,7 @@
 
         var lihatDefaultContent = '<button onclick="showDetails(this)" class="btn btn-default btn-sm center-block"><span class="glyphicon glyphicon-search"></span> Lihat</button>';
         table = $('#table_id').DataTable({
-            dom: "<'row'<'col-sm-6'l><'.col-sm-6.form-inline'<'#search.pull-right'>>>" +
+            dom: "<'row'<'col-sm-3'l><'.col-sm-9.form-inline'<'#search.pull-right'>>>" +
                  "<'row'<'col-sm-12'tr>>" +
                  "<'row'<'col-sm-5'i><'col-sm-7'p>>",
             ordering: true,
@@ -239,9 +250,28 @@
             }
         });
 
+        $("#date-filter").parent().datetimepicker({
+            format: 'yyyy-mm-dd',
+            initialDate: new Date(),
+            weekStart: 1,
+            todayBtn:  1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 2,
+            minView: 2,
+            forceParse: 0,
+            pickerPosition: "bottom-left"
+        });
+
         $('#search').append($('#search-group'));
 
         $('#search-button').on('click', function() {
+            if ($('#date-filter').val() !== '') {
+                table.column(5).search($('#date-filter').val());
+            }
+            else {
+                table.column(5).search('');
+            }
             table.column($('#search-category').val()).search($('#search-box').val()).draw();
         });
 

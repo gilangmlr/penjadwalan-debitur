@@ -157,6 +157,9 @@ class AkadController extends Controller
                 else if ($key == 4) {
                     $column_name = 'notaris.name';
                 }
+                else if ($key == 5) {
+                    $column_name = 'akads.jam_akad_mulai';
+                }
                 else if ($key == 7) {
                     $column_name = 'pendampings.name';
                 }
@@ -199,7 +202,29 @@ class AkadController extends Controller
                     }
 
                     $akad = $akad->orWhere($column_name, 'like',
-                                            '%' . $value['search']['value'] . '%');
+                                        '%' . $value['search']['value'] . '%');
+                }
+            }
+            foreach ($all['columns'] as $key => $value) {
+                if ($value['searchable']) {
+                    if ($key == 5) {
+                        $column_name_spec = 'akads.jam_akad_mulai';
+                    }
+                    else {
+                        continue;
+                    }
+
+                    if ($column_name_spec !== $column_name) {
+                        continue;
+                    }
+
+                    if ($key == 5) {
+                        $date_filter = Carbon::createFromFormat('Y-m-d H', $value['search']['value'] . ' 0', config('app.user_timezone'))->subHours(config('app.user_timezone'));
+                        $akad = $akad->where($column_name, '>=', $date_filter);
+
+                        $date_filter_end = Carbon::createFromFormat('Y-m-d H', $value['search']['value'] . ' 0', config('app.user_timezone'))->subHours(config('app.user_timezone'))->addDay();
+                        $akad = $akad->where('akads.jam_akad_selesai', '<', $date_filter_end);
+                    }
                 }
             }
         }
@@ -242,15 +267,15 @@ class AkadController extends Controller
         
             $akad_eloquent = Akad::find($item->id);
 
-            $jam_mulai_carbon = $akad_eloquent->jam_akad_mulai->addHours(config('app.user_timezone'));
+            $jam_mulai_carbon = $akad_eloquent->jam_akad_mulai;
             $jam_mulai_timestamp = $jam_mulai_carbon->timestamp;
-            $jam_mulai_time = $jam_mulai_carbon->format('H:i');
+            $jam_mulai_time = $jam_mulai_carbon->addHours(config('app.user_timezone'))->format('H:i');
             $jam_mulai = ['timestamp' => $jam_mulai_timestamp,
                           'time' => $jam_mulai_time];
 
-            $jam_selesai_carbon = $akad_eloquent->jam_akad_selesai->addHours(config('app.user_timezone'));
+            $jam_selesai_carbon = $akad_eloquent->jam_akad_selesai;
             $jam_selesai_timestamp = $jam_selesai_carbon->timestamp;
-            $jam_selesai_time = $jam_selesai_carbon->format('H:i');
+            $jam_selesai_time = $jam_selesai_carbon->addHours(config('app.user_timezone'))->format('H:i');
             $jam_selesai = ['timestamp' => $jam_selesai_timestamp,
                           'time' => $jam_selesai_time];
 
