@@ -214,11 +214,11 @@
 @section('script')
 <script type="text/javascript">
     var momentObj = moment();
-    var formattedTime = momentObj.format('YYYY-MM-DD HH:mm:ss');
+    var formattedTime = momentObj.format('YYYY-MM-DD HH:mm') + ':00';
     
     $("#jam-akad-mulai").attr("placeholder", formattedTime);
     $("#jam-akad-mulai").parent().datetimepicker({
-        format: 'yyyy-mm-dd hh:ii:ss',
+        format: 'yyyy-mm-dd hh:ii:00',
         initialDate: new Date(),
         weekStart: 1,
         todayBtn:  1,
@@ -229,11 +229,11 @@
         pickerPosition: "top-left"
     });
 
-    formattedTime = momentObj.add(1, 'h').format('YYYY-MM-DD HH:mm:ss');
+    formattedTime = momentObj.add(1, 'h').format('YYYY-MM-DD HH:mm') + ':00';
 
     $("#jam-akad-selesai").attr("placeholder", formattedTime);
     $("#jam-akad-selesai").parent().datetimepicker({
-        format: 'yyyy-mm-dd hh:ii:ss',
+        format: 'yyyy-mm-dd hh:ii:00',
         initialDate: new Date(),
         weekStart: 1,
         todayBtn:  1,
