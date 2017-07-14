@@ -270,7 +270,7 @@ class AkadController extends Controller
                         $date_filter = Carbon::createFromFormat('Y-m-d H', $value['search']['value'] . ' 0', config('app.user_timezone'))->subHours(config('app.user_timezone'));
                         $akad = $akad->where($column_name, '>=', $date_filter);
 
-                        $date_filter_end = Carbon::createFromFormat('Y-m-d H', $value['search']['value'] . ' 0', config('app.user_timezone'))->subHours(config('app.user_timezone'))->addDay();
+                        $date_filter_end = Carbon::createFromFormat('Y-m-d H', $value['search']['value'] . ' 0', config('app.user_timezone'))->subHours(config('app.user_timezone'))->addDay()->addHour();
                         $akad = $akad->where('akads.jam_akad_selesai', '<', $date_filter_end);
                     }
                 }
