@@ -269,7 +269,7 @@
             processing: true,
             serverSide: true,
             ajax: {
-                url: '/crud-akad-report',
+                url: '/crud-akad-list',
                 data: function (d) {
                     d['date-filter-category'] = $('#date-filter-category').val();
                 }
