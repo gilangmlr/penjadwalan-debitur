@@ -14,6 +14,8 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/animate.css') }}" rel="stylesheet">
     <link href="{{ asset('css/bootstrap-datetimepicker.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/buttons.dataTables.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/buttons.bootstrap.min.css') }}" rel="stylesheet">
     @yield('stylesheet')
 </head>
 <body>
@@ -101,6 +103,10 @@
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="{{ asset('js/bootstrap-datetimepicker.min.js') }}"></script>
     <script src="{{ asset('js/bootstrap-datetimepicker.id.js') }}"></script>
+    <script src="{{ asset('js/buttons.html5.min.js') }}"></script>
+    <script src="{{ asset('js/jszip-3.1.3.min.js') }}"></script>
+    <script src="{{ asset('js/dataTables.buttons.min.js') }}"></script>
+    <script src="{{ asset('js/buttons.bootstrap.min.js') }}"></script>
     @yield('script')
 </body>
 </html>

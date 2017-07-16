@@ -229,7 +229,8 @@
 
         var lihatDefaultContent = '<button onclick="showDetails(this)" class="btn btn-default btn-sm center-block"><span class="glyphicon glyphicon-search"></span> Lihat</button>';
         table = $('#table_id').DataTable({
-            dom: "<'row'<'col-sm-3'l><'.col-sm-9.form-inline'<'#search.pull-right'>>>" +
+            dom: "<'row'<'col-sm-2'l><'col-sm-1'B>" +
+                 "<'.col-sm-9.form-inline'<'#search.pull-right'>>>" +
                  "<'row'<'col-sm-12'tr>>" +
                  "<'row'<'col-sm-5'i><'col-sm-7'p>>",
             ordering: true,
@@ -272,7 +273,10 @@
                 data: function (d) {
                     d['date-filter-category'] = $('#date-filter-category').val();
                 }
-            }
+            },
+            buttons: [
+                'excel'
+            ]
         });
 
         $("#month-filter-group").hide();
