@@ -104,6 +104,7 @@
     <script src="{{ asset('js/bootstrap-datetimepicker.min.js') }}"></script>
     <script src="{{ asset('js/bootstrap-datetimepicker.id.js') }}"></script>
     <script src="{{ asset('js/buttons.html5.min.js') }}"></script>
+    <script src="{{ asset('js/buttons.print.min.js') }}"></script>
     <script src="{{ asset('js/jszip-3.1.3.min.js') }}"></script>
     <script src="{{ asset('js/dataTables.buttons.min.js') }}"></script>
     <script src="{{ asset('js/buttons.bootstrap.min.js') }}"></script>

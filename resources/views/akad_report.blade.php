@@ -229,8 +229,8 @@
 
         var lihatDefaultContent = '<button onclick="showDetails(this)" class="btn btn-default btn-sm center-block"><span class="glyphicon glyphicon-search"></span> Lihat</button>';
         table = $('#table_id').DataTable({
-            dom: "<'row'<'col-sm-2'l><'col-sm-1'B>" +
-                 "<'.col-sm-9.form-inline'<'#search.pull-right'>>>" +
+            dom: "<'row'<'col-sm-2'l><'col-sm-2'B>" +
+                 "<'.col-sm-8.form-inline'<'#search.pull-right'>>>" +
                  "<'row'<'col-sm-12'tr>>" +
                  "<'row'<'col-sm-5'i><'col-sm-7'p>>",
             ordering: true,
@@ -275,7 +275,18 @@
                 }
             },
             buttons: [
-                'excel'
+                {
+                    extend: 'excel',
+                    exportOptions: {
+                        columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+                    }
+                },
+                {
+                    extend: 'print',
+                    exportOptions: {
+                        columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+                    }
+                }
             ]
         });
 
