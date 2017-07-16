@@ -12,28 +12,53 @@
 
                 <div class="panel-body">
                     <div id="search-group" class="form-inline">
-                    <div class="form-group">
-                        <div class="input-group date">
-                            <input id="date-filter" name="date-filter" class="form-control" size="16" type="text" readonly style="background-color: white; cursor: pointer;">
-                            <span class="input-group-addon">
-                                <span class="glyphicon glyphicon-remove"></span>
-                            </span>
-                            <span class="input-group-addon">
-                                <span class="glyphicon glyphicon-calendar"></span>
-                            </span>
+                        <div class="form-group">
+                            <div class="form-group">
+                                <select id="date-filter-category" class="form-control">
+                                    <option value="2">Hari</option>
+                                    <option value="3">Bulan</option>
+                                    <option value="4">Tahun</option>
+                                </select>
+                            </div>
+                            <div id="day-filter-group" class="input-group date">
+                                <input id="day-filter" name="day-filter" class="form-control" size="16" type="text" readonly style="background-color: white; cursor: pointer;">
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-remove"></span>
+                                </span>
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                            <div id="month-filter-group" class="input-group date">
+                                <input id="month-filter" name="month-filter" class="form-control" size="16" type="text" readonly style="background-color: white; cursor: pointer;">
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-remove"></span>
+                                </span>
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                            <div id="year-filter-group" class="input-group date">
+                                <input id="year-filter" name="year-filter" class="form-control" size="16" type="text" readonly style="background-color: white; cursor: pointer;">
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-remove"></span>
+                                </span>
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
                         </div>
-                      </div>
-                      <div class="form-group">
-                        <select id="search-category" class="form-control">
-                            <option value="7">Pendamping</option>
-                            <option value="8">PIC</option>
-                            <option value="9">Ruangan</option>
-                        </select>
-                      </div>
-                      <div class="form-group">
-                        <input type="text" id="search-box" class="form-control">
-                      </div>
-                      <button id="search-button" class="btn btn-default">Cari</button>
+                        <div class="form-group">
+                            <select id="search-category" class="form-control">
+                                <option value="7">Pendamping</option>
+                                <option value="8">PIC</option>
+                                <option value="9">Ruangan</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="search-box" class="form-control">
+                        </div>
+                        <button id="search-button" class="btn btn-default">Cari</button>
                     </div>
                     <table id="table_id" class="table table-striped table-bordered" width="100%">
                         <thead>
@@ -204,7 +229,8 @@
 
         var lihatDefaultContent = '<button onclick="showDetails(this)" class="btn btn-default btn-sm center-block"><span class="glyphicon glyphicon-search"></span> Lihat</button>';
         table = $('#table_id').DataTable({
-            dom: "<'row'<'col-sm-3'l><'.col-sm-9.form-inline'<'#search.pull-right'>>>" +
+            dom: "<'row'<'col-sm-2'l><'col-sm-2'B>" +
+                 "<'.col-sm-8.form-inline'<'#search.pull-right'>>>" +
                  "<'row'<'col-sm-12'tr>>" +
                  "<'row'<'col-sm-5'i><'col-sm-7'p>>",
             ordering: true,
@@ -243,13 +269,47 @@
             processing: true,
             serverSide: true,
             ajax: {
-                url: '/crud-akad-list',
+                url: '/crud-akad-report',
                 data: function (d) {
+                    d['date-filter-category'] = $('#date-filter-category').val();
                 }
+            },
+            buttons: [
+                {
+                    extend: 'excel',
+                    exportOptions: {
+                        columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+                    }
+                },
+                {
+                    extend: 'print',
+                    exportOptions: {
+                        columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+                    }
+                }
+            ]
+        });
+
+        $("#month-filter-group").hide();
+        $("#year-filter-group").hide();
+
+        $("#date-filter-category").on('change', function() {
+            $("#day-filter-group").hide();
+            $("#month-filter-group").hide();
+            $("#year-filter-group").hide();
+            
+            if ($(this).val() == "2") {
+                $("#day-filter-group").show();
+            }
+            else if ($(this).val() == "3") {
+                $("#month-filter-group").show();
+            }
+            else if ($(this).val() == "4") {
+                $("#year-filter-group").show();
             }
         });
 
-        $("#date-filter").parent().datetimepicker({
+        $("#day-filter").parent().datetimepicker({
             format: 'yyyy-mm-dd',
             initialDate: new Date(),
             weekStart: 1,
@@ -262,15 +322,61 @@
             pickerPosition: "bottom-left"
         });
 
+        $("#month-filter").parent().datetimepicker({
+            format: 'yyyy-mm',
+            initialDate: new Date(),
+            weekStart: 1,
+            todayBtn:  1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 3,
+            minView: 3,
+            forceParse: 0,
+            pickerPosition: "bottom-left"
+        });
+
+        $("#year-filter").parent().datetimepicker({
+            format: 'yyyy',
+            initialDate: new Date(),
+            weekStart: 1,
+            todayBtn:  1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 4,
+            minView: 4,
+            forceParse: 0,
+            pickerPosition: "bottom-left"
+        });
+
         $('#search').append($('#search-group'));
 
         $('#search-button').on('click', function() {
-            if ($('#date-filter').val() !== '') {
-                table.column(5).search($('#date-filter').val());
+            if ($('#date-filter-category').val() == '2') {
+                if ($('#day-filter').val() !== '') {
+                    table.column(5).search($('#day-filter').val());
+                }
+                else {
+                    table.column(5).search('');
+                }
             }
-            else {
-                table.column(5).search('');
+            else if ($('#date-filter-category').val() == '3') {
+                if ($('#month-filter').val() !== '') {
+                    console.log('month-filter:');
+                    table.column(5).search($('#month-filter').val() + '-01');
+                }
+                else {
+                    table.column(5).search('');
+                }
             }
+            else if ($('#date-filter-category').val() == '4') {
+                if ($('#year-filter').val() !== '') {
+                    table.column(5).search($('#year-filter').val() + '-01-01');
+                }
+                else {
+                    table.column(5).search('');
+                }
+            }
+            
             table.column($('#search-category').val()).search($('#search-box').val()).draw();
         });
 
