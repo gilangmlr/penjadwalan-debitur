@@ -154,10 +154,6 @@ class AkadController extends Controller
             $komentar->user_id = $user->id;
             $komentar->save();
         }
-        dd($akad->komentars);
-        DB::table('komentars')->insert(
-                ['content' => $all['komentar'], 'user_id' => $user->id, 'akad_id' => $all['id-akad']]
-            );
     }
 
     public function crud_edit(Request $request) {
@@ -360,6 +356,12 @@ class AkadController extends Controller
                 return ['content' => $item->content, 'user_id' => $item->user_id,
                         'time' => $comment_time, 'user_name' => $item->user->name];
             });
+            if (!count($komentars)) {
+                $komentars = ['content' => ''];
+            }
+            else {
+                $komentars = $komentars[0];
+            }
 
             return ['no' => $item->id, 'namaDebitur' => $item->nama_debitur,
                     'fasilitas' => $akad_eloquent->fasilitas->name,

@@ -74,7 +74,7 @@
                                 <th class="text-center">PIC</th>
                                 <th class="text-center">Ruangan</th>
                                 <th class="text-center"></th>
-                                <th class="text-center"></th>
+                                <th class="text-center">Komentar</th>
                             </tr>
                         </thead>
                     </table>
@@ -194,14 +194,18 @@
         $('#pic-details').html(data.pIC);
         $('#ruangan-details').html(data.ruangan);
 
-        if (data.komentar.length == 0) {
-            data.komentar = [{'content': 'Tidak ada komentar.',}];
+        if (data.komentar.content == '') {
+            data.komentar.content = 'Tidak ada komentar.';
         }
-        for (var x in data.komentar) {
-            var komen = data.komentar[x];
-            var tpl = '<div class="row" ><div class="row"><div class="pull-right">' + (komen.user_id ? komen.user_name + ' (' + komen.user_id + '), ' + komen.time : '') + '</div></div><div class="pull-left">' + komen.content + '</div><div><hr /></div></div>';
-            $('#komentar').append(tpl);
-        }
+        // for (var x in data.komentar) {
+        //     var komen = data.komentar[x];
+        //     var tpl = '<div class="row" ><div class="row"><div class="pull-right">' + (komen.user_id ? komen.user_name + ' (' + komen.user_id + '), ' + komen.time : '') + '</div></div><div class="pull-left">' + komen.content + '</div><div><hr /></div></div>';
+        //     $('#komentar').append(tpl);
+        // }
+
+        var komen = data.komentar;
+        var tpl = '<div class="row" ><div class="row"><div class="pull-right">' + (komen.user_id ? komen.user_name + ' (' + komen.user_id + '), ' + komen.time : '') + '</div></div><div class="pull-left">' + komen.content + '</div><div><hr /></div></div>';
+        $('#komentar').append(tpl);
 
         bootbox.dialog({
             title: 'Details Akad',
@@ -259,7 +263,7 @@
                 {data: 'ruangan', name: 'ruangan', targets: 9},
                 {data: null, name: 'action', targets: 10,
                     defaultContent: lihatDefaultContent},
-                {data: 'komentar', name: 'komentar', targets: 11},
+                {data: {display: 'komentar.content'}, name: 'komentar', targets: 11},
 
                 {visible: false, targets: [2, 3, 9, 11]},
                 {orderable: false, targets: [0, 1, 3, 5, 6, 9, 10]},
@@ -278,7 +282,7 @@
                 {
                     extend: 'excel',
                     exportOptions: {
-                        columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+                        columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 11]
                     },
                     filename: function() {
                         var filename = 'laporan_debitur_';
@@ -308,7 +312,7 @@
                 {
                     extend: 'print',
                     exportOptions: {
-                        columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+                        columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 11]
                     }
                 }
             ]
