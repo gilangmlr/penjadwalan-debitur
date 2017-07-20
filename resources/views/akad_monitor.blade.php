@@ -84,18 +84,18 @@
     var table;
 
     function showDetails(that) {
-        var msg = '<div class="form-group" id="comment-tpl">' +
-                        '<div class="row">' +
-                            '<div class="col-xs-4"><div class="pull-right"><strong>Komentar: </strong></div></div>' +
+        var data = table.row(that.parentNode).data();
+        var komenContent = (data.komentar.length ? data.komentar[0]['content'] : '');
+        var msg =   '<div class="row form-group" id="comment-tpl">' +
+                        '<div class="col-xs-4"><div class="pull-right"><strong>Komentar: </strong></div></div>' +
 
-                            '<div class="col-xs-6">' +
-                                '<div id="no-details" class="pull-left">' +
-                                    '<textarea id="komentar" name="komentar" class="form-control"></textarea>' +
-                                '</div>' +
+                        '<div class="col-xs-6">' +
+                            '<div id="no-details" class="pull-left">' +
+                                '<textarea id="komentar" name="komentar" class="form-control" required>' + komenContent + '</textarea>' +
+                                '<input type="submit" style="display:none;"/>' +
                             '</div>' +
                         '</div>' +
                     '</div>';
-        var data = table.row(that.parentNode).data();
         bootbox.dialog({
             title: 'Tambah Komentar Akad',
             message: $(msg).html(),
@@ -105,24 +105,29 @@
                 'add': {
                     label: 'Add',
                     callback: function() {
-                        $.ajax({
-                            type: 'POST',
-                            url: '/crud-akad-comment-create',
-                            data: {
-                                'komentar': $('#komentar').val(),
-                                '_token': $('meta[name=csrf-token]').attr('content'),
-                                'id-akad': data.no
-                            },
-                            success: function() {
-                                window.location.href = '/view-akad-list';
-                            }
-                        });
+                        if (!$('#komentar').val()) {
+                            $('#comment-tpl').addClass('has-error');
+                            return false;
+                        }
+                        else {
+                            $.ajax({
+                                type: 'POST',
+                                url: '/crud-akad-comment-create',
+                                data: {
+                                    'komentar': $('#komentar').val(),
+                                    '_token': $('meta[name=csrf-token]').attr('content'),
+                                    'id-akad': data.no
+                                },
+                                success: function() {
+                                    window.location.href = '/view-akad-list';
+                                }
+                            });
+                        }
                     }
                 },
                 'Close': function(){},
             }
         });
-        $('#comment-tpl').addClass('hidden');
     }
 
     $(document).ready(function() {

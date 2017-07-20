@@ -16,6 +16,7 @@ use App\Pendamping;
 use App\PIC;
 use App\Ruangan;
 use App\Akad;
+use App\Komentar;
 
 class AkadController extends Controller
 {
@@ -137,6 +138,23 @@ class AkadController extends Controller
     {
         $all = $request->all();
         $user = Auth::user();
+        $akad = Akad::find($all['id-akad']);
+        if (!count($akad->komentars)) {
+            $komentar = new Komentar();
+            $komentar->content = $all['komentar'];
+            $komentar->user_id = $user->id;
+            $komentar->akad_id = $all['id-akad'];
+            $komentar->save();
+            $akad->komentars = $komentar;
+            dd($komentar);
+        }
+        else {
+            $komentar = $akad->komentars->first();
+            $komentar->content = $all['komentar'];
+            $komentar->user_id = $user->id;
+            $komentar->save();
+        }
+        dd($akad->komentars);
         DB::table('komentars')->insert(
                 ['content' => $all['komentar'], 'user_id' => $user->id, 'akad_id' => $all['id-akad']]
             );
