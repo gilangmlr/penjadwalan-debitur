@@ -86,13 +86,14 @@
     function showDetails(that) {
         var data = table.row(that.parentNode).data();
         var komenContent = (data.komentar.length ? data.komentar[0]['content'] : '');
-        var msg =   '<div class="row form-group" id="comment-tpl">' +
-                        '<div class="col-xs-4"><div class="pull-right"><strong>Komentar: </strong></div></div>' +
+        var msg =   '<div>' +
+                        '<div class="row form-group" id="comment-tpl">' +
+                            '<div class="col-xs-4"><div class="pull-right"><strong>Komentar: </strong></div></div>' +
 
-                        '<div class="col-xs-6">' +
-                            '<div id="no-details" class="pull-left">' +
-                                '<textarea id="komentar" name="komentar" class="form-control" required>' + komenContent + '</textarea>' +
-                                '<input type="submit" style="display:none;"/>' +
+                            '<div class="col-xs-6">' +
+                                '<div id="no-details" class="pull-left">' +
+                                    '<textarea id="komentar" name="komentar" class="form-control" required>' + komenContent + '</textarea>' +
+                                '</div>' +
                             '</div>' +
                         '</div>' +
                     '</div>';
