@@ -73,6 +73,11 @@
                                         </a>
                                     </li>
                                     <li>
+                                        <a href="{{ route('view-admin-users') }}">
+                                            Admin
+                                        </a>
+                                    </li>
+                                    <li>
                                         <a href="{{ route('logout') }}"
                                             onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
