@@ -133,6 +133,11 @@
 
     $(document).ready(function() {
         var commentDefaultContent = '<button onclick="showDetails(this)" class="btn btn-default btn-sm center-block"><span class="glyphicon glyphicon-plus"></span> Komentar</button>';
+        @if(Auth::user()->ability('admin,buat-komentar-role', 'buat-komentar'))
+            var komenVisibility = true;
+        @else
+            var komenVisibility = false;
+        @endif
         table = $('#table_id').DataTable({
             dom: "<'row'<'col-sm-6'l><'.col-sm-6.form-inline'<'#search.pull-right'>>>" +
                  "<'row'<'col-sm-12'tr>>" +
@@ -159,7 +164,7 @@
                 {data: 'pendamping', name: 'pendamping', targets: 7},
                 {data: 'pIC', name: 'pIC', targets: 8},
                 {data: 'ruangan', name: 'ruangan', targets: 9},
-                {data: null , name: 'action', targets: 10,
+                {data: null , name: 'action', targets: 10, visible: komenVisibility
                     defaultContent: commentDefaultContent},
 
                 {orderable: false, targets: [0, 1, 3, 5, 6, 9, 10]},

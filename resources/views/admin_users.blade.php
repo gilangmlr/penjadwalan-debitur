@@ -120,29 +120,40 @@
         $('input[name=buat-akad]').attr('checked', permissions['buat_akad'] == 'true' ? true : false);
         $('#ubah-akad').attr('checked', permissions['ubah_akad'] == 'true' ? true : false);
         $('input[name=hapus-akad]').attr('checked', permissions['hapus_akad'] == 'true' ? true : false);
+
+        @if(Auth::user()->ability('admin,hapus-akad-role', 'hapus-akad'))
+            var buttons = {
+                            'save': {
+                                label: 'Simpan',
+                                callback: function() {
+                                    $.ajax({
+                                        url: '/crud-admin-users-edit',
+                                        method: 'POST',
+                                        data: $('form').serialize()
+                                    });
+                                    // window.location.href = '/view-admin-users-list';
+                                }
+                            },
+                            'close': {
+                                label: 'Tutup',
+                                callback:  function(){}
+                            }
+                        }
+        @else
+            var buttons = {
+                            'close': {
+                                label: 'Tutup',
+                                callback:  function(){}
+                            }
+                        }
+        @endif
         
         bootbox.dialog({
             title: 'Izin Pengguna',
             message: $('#details-tpl').html(),
             backdrop: true,
             onEscape: true,
-            buttons: {
-                'save': {
-                    label: 'Simpan',
-                    callback: function() {
-                        $.ajax({
-                            url: '/crud-admin-users-edit',
-                            method: 'POST',
-                            data: $('form').serialize()
-                        });
-                        // window.location.href = '/view-admin-users-list';
-                    }
-                },
-                'close': {
-                    label: 'Tutup',
-                    callback:  function(){}
-                }
-            }
+            buttons: buttons
         });
         $('#details-tpl').addClass('hidden');
     }
@@ -152,7 +163,7 @@
                 {data: 'nama', name: 'nama', targets: 0},
                 {data: 'nik', name: 'nik', targets: 1},
                 {data: 'email', name: 'email', targets: 2},
-                {name: 'details', orderable: false, targets: 3},
+                {name: 'details', visible: detailsVisibility, orderable: false, targets: 3},
                 {data: 'permissions', name: 'permissions', orderable: false, visible: false, targets: 4}
             ]
         });

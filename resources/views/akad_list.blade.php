@@ -207,12 +207,8 @@
         var tpl = '<div class="row" ><div class="row"><div class="pull-right">' + (komen.user_id ? komen.user_name + ' (' + komen.user_id + '), ' + komen.time : '') + '</div></div><div class="pull-left">' + komen.content + '</div><div><hr /></div></div>';
         $('#komentar').append(tpl);
 
-        bootbox.dialog({
-            title: 'Details Akad',
-            message: $('#details-tpl').html(),
-            backdrop: true,
-            onEscape: true,
-            buttons: {
+        @if(Auth::user()->ability('admin,ubah-akad-role', 'ubah-akad'))
+            var buttons = {
                 'edit': {
                     label: 'Edit',
                     callback: function() {
@@ -220,7 +216,19 @@
                     }
                 },
                 'Close': function(){},
-            }
+            };
+        @else
+            var buttons = {
+                'Close': function(){},
+            };
+        @endif
+
+        bootbox.dialog({
+            title: 'Details Akad',
+            message: $('#details-tpl').html(),
+            backdrop: true,
+            onEscape: true,
+            buttons: buttons
         });
         $('#details-tpl').addClass('hidden');
         $('#komentar').html('');
@@ -232,11 +240,16 @@
         }
 
         var lihatDefaultContent = '<button onclick="showDetails(this)" class="btn btn-default btn-sm center-block"><span class="glyphicon glyphicon-search"></span> Lihat</button>';
+        @if(Auth::user()->ability('admin,buat-laporan-role', 'buat-laporan'))
+            var domStr = "<'row'<'col-sm-2'l><'col-sm-2'B>";
+        @else
+            var domStr = "<'row'<'col-sm-2'l><'col-sm-2'>";
+        @endif
+        domStr += "<'.col-sm-8.form-inline'<'#search.pull-right'>>>" +
+                  "<'row'<'col-sm-12'tr>>" +
+                  "<'row'<'col-sm-5'i><'col-sm-7'p>>";
         table = $('#table_id').DataTable({
-            dom: "<'row'<'col-sm-2'l><'col-sm-2'B>" +
-                 "<'.col-sm-8.form-inline'<'#search.pull-right'>>>" +
-                 "<'row'<'col-sm-12'tr>>" +
-                 "<'row'<'col-sm-5'i><'col-sm-7'p>>",
+            dom: domStr,
             ordering: true,
             order: [],
             autoWidth: false,
@@ -281,6 +294,7 @@
             buttons: [
                 {
                     extend: 'excel',
+                    className: '',
                     exportOptions: {
                         columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 11]
                     },
@@ -311,6 +325,7 @@
                 },
                 {
                     extend: 'print',
+                    className: '',
                     exportOptions: {
                         columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 11]
                     }

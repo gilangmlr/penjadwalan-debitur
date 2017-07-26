@@ -57,26 +57,34 @@
                                 </a>
 
                                 <ul class="dropdown-menu" role="menu">
-                                    <li>
-                                        <a href="{{ route('view-akad-create') }}">
-                                            Buat Akad
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="{{ route('view-akad-list') }}">
-                                            Lihat Akad
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="{{ route('view-akad-monitor') }}">
-                                            Pantau Akad
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="{{ route('view-admin-users') }}">
-                                            Admin
-                                        </a>
-                                    </li>
+                                    @if(Auth::user()->ability('admin,buat-akad-role', 'buat-akad'))
+                                        <li>
+                                            <a href="{{ route('view-akad-create') }}">
+                                                Buat Akad
+                                            </a>
+                                        </li>
+                                    @endif
+                                    @if(Auth::user()->ability('admin,lihat-akad-role', 'lihat-akad'))
+                                        <li>
+                                            <a href="{{ route('view-akad-list') }}">
+                                                Lihat Akad
+                                            </a>
+                                        </li>
+                                    @endif
+                                    @if(Auth::user()->ability('admin,pantau-akad-role', 'pantau-akad'))
+                                        <li>
+                                            <a href="{{ route('view-akad-monitor') }}">
+                                                Pantau Akad
+                                            </a>
+                                        </li>
+                                    @endif
+                                    @if(Auth::user()->ability('admin,buat-pengguna-role,lihat-pengguna-role,ubah-pengguna-role,hapus-pengguna-role', 'buat-pengguna,lihat-pengguna,ubah-pengguna,hapus-pengguna'))
+                                        <li>
+                                            <a href="{{ route('view-admin-users') }}">
+                                                Admin
+                                            </a>
+                                        </li>
+                                    @endif
                                     <li>
                                         <a href="{{ route('logout') }}"
                                             onclick="event.preventDefault();

@@ -192,12 +192,16 @@
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-primary">
-                                    Ubah
-                                </button>
-                                <button type="submit" class="btn btn-danger" onclick="document.getElementById('mode').value = 'delete'">
-                                    Hapus
-                                </button>
+                                @if(Auth::user()->ability('admin,ubah-akad-role', 'ubah-akad'))
+                                    <button type="submit" class="btn btn-primary">
+                                        Ubah
+                                    </button>
+                                @endif
+                                @if(Auth::user()->ability('admin,hapus-akad-role', 'hapus-akad'))
+                                    <button type="submit" class="btn btn-danger" onclick="document.getElementById('mode').value = 'delete'">
+                                        Hapus
+                                    </button>
+                                @endif
                                 <input id="mode" name="mode" type="hidden" value="edit">
                             </div>
                         </div>
