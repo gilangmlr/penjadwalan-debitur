@@ -33,8 +33,14 @@
                                         </button>
                                     </td>
                                     <td>{"buat_akad": "{{$user['permissions']['buat_akad'] ? 'true' : 'false'}}",
+                                    "lihat_akad": "{{$user['permissions']['lihat_akad'] ? 'true' : 'false'}}",
                                     "ubah_akad": "{{$user['permissions']['ubah_akad'] ? 'true' : 'false'}}",
-                                    "hapus_akad": "{{$user['permissions']['hapus_akad'] ? 'true' : 'false'}}"}</td>
+                                    "hapus_akad": "{{$user['permissions']['hapus_akad'] ? 'true' : 'false'}}",
+                                    "pantau_akad": "{{$user['permissions']['pantau_akad'] ? 'true' : 'false'}}",
+                                    "lihat_pengguna": "{{$user['permissions']['lihat_pengguna'] ? 'true' : 'false'}}",
+                                    "ubah_pengguna": "{{$user['permissions']['ubah_pengguna'] ? 'true' : 'false'}}",
+                                    "buat_komentar": "{{$user['permissions']['buat_komentar'] ? 'true' : 'false'}}",
+                                    "buat_laporan": "{{$user['permissions']['buat_laporan'] ? 'true' : 'false'}}"}</td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -76,6 +82,15 @@
                                 </div>
                             </div>
                             <div class="row">
+                                <div class="col-xs-4"><div class="pull-right"><strong>Lihat Akad: </strong></div></div>
+
+                                <div class="col-xs-6">
+                                    <div id="" class="pull-left">
+                                        <input type="checkbox" name="lihat-akad">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
                                 <div class="col-xs-4"><div class="pull-right"><strong>Ubah Akad: </strong></div></div>
 
                                 <div class="col-xs-6">
@@ -90,6 +105,51 @@
                                 <div class="col-xs-6">
                                     <div id="" class="pull-left">
                                         <input type="checkbox" name="hapus-akad">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-4"><div class="pull-right"><strong>Pantau Akad: </strong></div></div>
+
+                                <div class="col-xs-6">
+                                    <div id="" class="pull-left">
+                                        <input type="checkbox" name="pantau-akad">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-4"><div class="pull-right"><strong>Lihat Pengguna: </strong></div></div>
+
+                                <div class="col-xs-6">
+                                    <div id="" class="pull-left">
+                                        <input type="checkbox" name="lihat-pengguna">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-4"><div class="pull-right"><strong>Ubah Pengguna: </strong></div></div>
+
+                                <div class="col-xs-6">
+                                    <div id="" class="pull-left">
+                                        <input type="checkbox" name="ubah-pengguna">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-4"><div class="pull-right"><strong>Buat Komentar: </strong></div></div>
+
+                                <div class="col-xs-6">
+                                    <div id="" class="pull-left">
+                                        <input type="checkbox" name="buat-komentar">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-4"><div class="pull-right"><strong>Buat Laporan: </strong></div></div>
+
+                                <div class="col-xs-6">
+                                    <div id="" class="pull-left">
+                                        <input type="checkbox" name="buat-laporan">
                                     </div>
                                 </div>
                             </div>
@@ -118,8 +178,14 @@
         var permissions = JSON.parse(data.permissions);
 
         $('input[name=buat-akad]').attr('checked', permissions['buat_akad'] == 'true' ? true : false);
-        $('#ubah-akad').attr('checked', permissions['ubah_akad'] == 'true' ? true : false);
+        $('input[name=lihat-akad]').attr('checked', permissions['lihat_akad'] == 'true' ? true : false);
+        $('input[name=ubah-akad]').attr('checked', permissions['ubah_akad'] == 'true' ? true : false);
         $('input[name=hapus-akad]').attr('checked', permissions['hapus_akad'] == 'true' ? true : false);
+        $('input[name=pantau-akad]').attr('checked', permissions['pantau_akad'] == 'true' ? true : false);
+        $('input[name=lihat-pengguna]').attr('checked', permissions['lihat_pengguna'] == 'true' ? true : false);
+        $('input[name=ubah-pengguna]').attr('checked', permissions['ubah_pengguna'] == 'true' ? true : false);
+        $('input[name=buat-komentar]').attr('checked', permissions['buat_komentar'] == 'true' ? true : false);
+        $('input[name=buat-laporan]').attr('checked', permissions['buat_laporan'] == 'true' ? true : false);
 
         @if(Auth::user()->ability('admin,hapus-akad-role', 'hapus-akad'))
             var buttons = {
@@ -163,7 +229,7 @@
                 {data: 'nama', name: 'nama', targets: 0},
                 {data: 'nik', name: 'nik', targets: 1},
                 {data: 'email', name: 'email', targets: 2},
-                {name: 'details', visible: detailsVisibility, orderable: false, targets: 3},
+                {name: 'details', orderable: false, targets: 3},
                 {data: 'permissions', name: 'permissions', orderable: false, visible: false, targets: 4}
             ]
         });
