@@ -44,33 +44,6 @@
                             @endforeach
                         </tbody>
                     </table>
-                    <!-- <div class="form-group hidden" id="details-tpl">
-                        <div class="row">
-                            <div class="col-xs-4"><div class="pull-right"><strong>Nama: </strong></div></div>
-
-                            <div class="col-xs-6">
-                                <div id="nama-details" class="pull-left">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-xs-4"><div class="pull-right"><strong>NIK: </strong></div></div>
-
-                            <div class="col-xs-6">
-                                <div id="nik-details" class="pull-left">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-xs-4"><div class="pull-right"><strong>Email: </strong></div></div>
-
-                            <div class="col-xs-6">
-                                <div id="email-details" class="pull-left">
-                                </div>
-                            </div>
-                        </div>
-                        <hr />
-                    </div> -->
                 </div>
             </div>
         </div>
@@ -79,12 +52,10 @@
 @endsection
 
 @section('script')
-<script src="{{ asset('js/bootbox.min.js') }}"></script>
 <script type="text/javascript">
     var table;
     function showDetails(that) {
         var data = table.row(that.parentNode).data();
-        // $('#details-tpl').removeClass('hidden');
         $('#details-tpl .pull-left').parent().css('padding-left', '0');
         $('#nama-details').html(data.nama);
         $('#nik-details').html(data.nik);
@@ -130,7 +101,11 @@
                                     '<div class="col-xs-6" style="padding-left: 0">' +
                                         '<div id="" class="pull-left">' +
                                             '<input type="checkbox" name="{{$perm[0]}}-{{$perm[1]}}"' +
-                                                (permissions['{{$perm[0]}}-{{$perm[1]}}'] == 'true' ? 'checked' : '') + '>' +
+                                                (permissions['{{$perm[0]}}-{{$perm[1]}}'] == 'true' ? 'checked' : '') + 
+                                                @if(!Auth::user()->ability('admin,ubah-pengguna-role', 'ubah-pengguna'))
+                                                    disabled
+                                                @endif
+                                                '>' +
                                         '</div>' +
                                     '</div>' +
                                 '</div>' +
@@ -181,6 +156,7 @@
     }
     $(document).ready(function() {
         table = $('#table_id').DataTable({
+            processing: true,
             columnDefs: [
                 {data: 'nama', name: 'nama', targets: 0},
                 {data: 'nik', name: 'nik', targets: 1},
