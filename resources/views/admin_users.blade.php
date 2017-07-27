@@ -32,20 +32,19 @@
                                             <span class="glyphicon glyphicon-search"></span> Lihat
                                         </button>
                                     </td>
-                                    <td>{"buat_akad": "{{$user['permissions']['buat_akad'] ? 'true' : 'false'}}",
-                                    "lihat_akad": "{{$user['permissions']['lihat_akad'] ? 'true' : 'false'}}",
-                                    "ubah_akad": "{{$user['permissions']['ubah_akad'] ? 'true' : 'false'}}",
-                                    "hapus_akad": "{{$user['permissions']['hapus_akad'] ? 'true' : 'false'}}",
-                                    "pantau_akad": "{{$user['permissions']['pantau_akad'] ? 'true' : 'false'}}",
-                                    "lihat_pengguna": "{{$user['permissions']['lihat_pengguna'] ? 'true' : 'false'}}",
-                                    "ubah_pengguna": "{{$user['permissions']['ubah_pengguna'] ? 'true' : 'false'}}",
-                                    "buat_komentar": "{{$user['permissions']['buat_komentar'] ? 'true' : 'false'}}",
-                                    "buat_laporan": "{{$user['permissions']['buat_laporan'] ? 'true' : 'false'}}"}</td>
+                                    <td>{
+                                    @foreach($permissions as $perm)
+                                        "{{$perm}}": "{{$user['permissions'][$perm] ? 'true' : 'false'}}"
+                                        @if($perm != end($permissions))
+                                            ,
+                                        @endif
+                                    @endforeach
+                                    }</td>
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
-                    <div class="form-group hidden" id="details-tpl">
+                    <!-- <div class="form-group hidden" id="details-tpl">
                         <div class="row">
                             <div class="col-xs-4"><div class="pull-right"><strong>Nama: </strong></div></div>
 
@@ -71,91 +70,7 @@
                             </div>
                         </div>
                         <hr />
-                        <form>
-                            <div class="row">
-                                <div class="col-xs-4"><div class="pull-right"><strong>Buat Akad: </strong></div></div>
-
-                                <div class="col-xs-6">
-                                    <div id="" class="pull-left">
-                                        <input type="checkbox" name="buat-akad">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-xs-4"><div class="pull-right"><strong>Lihat Akad: </strong></div></div>
-
-                                <div class="col-xs-6">
-                                    <div id="" class="pull-left">
-                                        <input type="checkbox" name="lihat-akad">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-xs-4"><div class="pull-right"><strong>Ubah Akad: </strong></div></div>
-
-                                <div class="col-xs-6">
-                                    <div id="" class="pull-left">
-                                        <input id="ubah-akad" type="checkbox" name="ubah-akad">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-xs-4"><div class="pull-right"><strong>Hapus Akad: </strong></div></div>
-
-                                <div class="col-xs-6">
-                                    <div id="" class="pull-left">
-                                        <input type="checkbox" name="hapus-akad">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-xs-4"><div class="pull-right"><strong>Pantau Akad: </strong></div></div>
-
-                                <div class="col-xs-6">
-                                    <div id="" class="pull-left">
-                                        <input type="checkbox" name="pantau-akad">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-xs-4"><div class="pull-right"><strong>Lihat Pengguna: </strong></div></div>
-
-                                <div class="col-xs-6">
-                                    <div id="" class="pull-left">
-                                        <input type="checkbox" name="lihat-pengguna">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-xs-4"><div class="pull-right"><strong>Ubah Pengguna: </strong></div></div>
-
-                                <div class="col-xs-6">
-                                    <div id="" class="pull-left">
-                                        <input type="checkbox" name="ubah-pengguna">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-xs-4"><div class="pull-right"><strong>Buat Komentar: </strong></div></div>
-
-                                <div class="col-xs-6">
-                                    <div id="" class="pull-left">
-                                        <input type="checkbox" name="buat-komentar">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-xs-4"><div class="pull-right"><strong>Buat Laporan: </strong></div></div>
-
-                                <div class="col-xs-6">
-                                    <div id="" class="pull-left">
-                                        <input type="checkbox" name="buat-laporan">
-                                    </div>
-                                </div>
-                            </div>
-                            {{ csrf_field() }}
-                        </form>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
@@ -169,59 +84,100 @@
     var table;
     function showDetails(that) {
         var data = table.row(that.parentNode).data();
-        $('#details-tpl').removeClass('hidden');
+        // $('#details-tpl').removeClass('hidden');
         $('#details-tpl .pull-left').parent().css('padding-left', '0');
         $('#nama-details').html(data.nama);
         $('#nik-details').html(data.nik);
+        $('input[name=nik]').val(data.nik);
         $('#email-details').html(data.email);
-        
+
         var permissions = JSON.parse(data.permissions);
 
-        $('input[name=buat-akad]').attr('checked', permissions['buat_akad'] == 'true' ? true : false);
-        $('input[name=lihat-akad]').attr('checked', permissions['lihat_akad'] == 'true' ? true : false);
-        $('input[name=ubah-akad]').attr('checked', permissions['ubah_akad'] == 'true' ? true : false);
-        $('input[name=hapus-akad]').attr('checked', permissions['hapus_akad'] == 'true' ? true : false);
-        $('input[name=pantau-akad]').attr('checked', permissions['pantau_akad'] == 'true' ? true : false);
-        $('input[name=lihat-pengguna]').attr('checked', permissions['lihat_pengguna'] == 'true' ? true : false);
-        $('input[name=ubah-pengguna]').attr('checked', permissions['ubah_pengguna'] == 'true' ? true : false);
-        $('input[name=buat-komentar]').attr('checked', permissions['buat_komentar'] == 'true' ? true : false);
-        $('input[name=buat-laporan]').attr('checked', permissions['buat_laporan'] == 'true' ? true : false);
+        var formTpl =   '<form>' +
+                            '<div class="row">' +
+                                '<div class="col-xs-4"><div class="pull-right"><strong>Nama: </strong></div></div>' +
+
+                                '<div class="col-xs-6" style="padding-left: 0">' +
+                                    '<div id="nama-details" class="pull-left">' +
+                                        data.nama +
+                                    '</div>' +
+                                '</div>' +
+                            '</div>' +
+                            '<div class="row">' +
+                                '<div class="col-xs-4"><div class="pull-right"><strong>NIK: </strong></div></div>' +
+
+                                '<div class="col-xs-6" style="padding-left: 0">' +
+                                    '<div id="nik-details" class="pull-left">' +
+                                        data.nik +
+                                    '</div>' +
+                                '</div>' +
+                            '</div>' +
+                            '<div class="row">' +
+                                '<div class="col-xs-4"><div class="pull-right"><strong>Email: </strong></div></div>' +
+
+                                '<div class="col-xs-6" style="padding-left: 0">' +
+                                    '<div id="email-details" class="pull-left">' +
+                                        data.email +
+                                    '</div>' +
+                                '</div>' +
+                            '</div>' +
+                            '<hr />' +
+                            '<input type="hidden" name="nik" value="' + data.nik + '">' +
+                            @foreach($permissionsArr as $perm)
+                                '<div class="row">' +
+                                    '<div class="col-xs-4"><div class="pull-right"><strong>{{ucfirst($perm[0])}} {{ucfirst($perm[1])}}: </strong></div></div>' +
+
+                                    '<div class="col-xs-6" style="padding-left: 0">' +
+                                        '<div id="" class="pull-left">' +
+                                            '<input type="checkbox" name="{{$perm[0]}}-{{$perm[1]}}"' +
+                                                (permissions['{{$perm[0]}}-{{$perm[1]}}'] == 'true' ? 'checked' : '') + '>' +
+                                        '</div>' +
+                                    '</div>' +
+                                '</div>' +
+                            @endforeach
+                        '</form>';
+
+        function callbackFn() {
+            console.log($('input[name=lihat-akad]').is(':checked'));
+            $.ajax({
+                url: '/crud-admin-users-edit',
+                method: 'POST',
+                data: $('form').serialize()
+            });
+            window.location.href = '/view-admin-users';
+        }
 
         @if(Auth::user()->ability('admin,hapus-akad-role', 'hapus-akad'))
             var buttons = {
                             'save': {
                                 label: 'Simpan',
-                                callback: function() {
-                                    $.ajax({
-                                        url: '/crud-admin-users-edit',
-                                        method: 'POST',
-                                        data: $('form').serialize()
-                                    });
-                                    // window.location.href = '/view-admin-users-list';
-                                }
+                                callback: callbackFn
                             },
                             'close': {
                                 label: 'Tutup',
-                                callback:  function(){}
+                                callback:  function(){
+                                    $('#details-tpl').addClass('hidden');
+                                }
                             }
                         }
         @else
             var buttons = {
                             'close': {
                                 label: 'Tutup',
-                                callback:  function(){}
+                                callback:  function(){
+                                    $('#details-tpl').addClass('hidden');
+                                }
                             }
                         }
         @endif
         
         bootbox.dialog({
             title: 'Izin Pengguna',
-            message: $('#details-tpl').html(),
+            message: formTpl,
             backdrop: true,
             onEscape: true,
             buttons: buttons
         });
-        $('#details-tpl').addClass('hidden');
     }
     $(document).ready(function() {
         table = $('#table_id').DataTable({

@@ -29,4 +29,4 @@ Route::post('/crud-akad-create', ['middleware' => ['ability:admin|buat-akad-role
 Route::get('/crud-akad-list', ['middleware' => ['ability:admin|lihat-akad-role,lihat-akad'], 'uses' => 'AkadController@crud_list'])->name('crud-akad-list');
 Route::post('/crud-akad-edit', ['middleware' => ['ability:admin|ubah-akad-role|hapus-akad-role,ubah-akad|hapus-akad'], 'uses' => 'AkadController@crud_edit'])->name('crud-akad-edit');
 Route::post('/crud-akad-comment-create', ['middleware' => ['ability:admin|buat-komentar-role,buat-komentar'], 'uses' => 'AkadController@crud_comment_create'])->name('crud-akad-comment-create');
-Route::post('/crud-admin-users-edit', ['middleware' => ['ability:admin|ubah-pengguna-role,ubah-pengguna'], 'uses' => 'AkadController@crud_users_edit'])->name('crud-admin-users-edit');
+Route::post('/crud-admin-users-edit', ['middleware' => ['ability:admin|ubah-pengguna-role,ubah-pengguna'], 'uses' => 'AdminController@crud_users_edit'])->name('crud-admin-users-edit');
