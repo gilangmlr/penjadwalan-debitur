@@ -21,7 +21,7 @@
                                 </select>
                             </div>
                             <div id="day-filter-group" class="input-group date">
-                                <input id="day-filter" name="day-filter" class="form-control" size="16" type="text" readonly style="background-color: white; cursor: pointer;">
+                                <input id="day-filter" name="day-filter" class="form-control" size="8" type="text" readonly style="background-color: white; cursor: pointer;">
                                 <span class="input-group-addon">
                                     <span class="glyphicon glyphicon-remove"></span>
                                 </span>
@@ -30,7 +30,7 @@
                                 </span>
                             </div>
                             <div id="month-filter-group" class="input-group date">
-                                <input id="month-filter" name="month-filter" class="form-control" size="16" type="text" readonly style="background-color: white; cursor: pointer;">
+                                <input id="month-filter" name="month-filter" class="form-control" size="8" type="text" readonly style="background-color: white; cursor: pointer;">
                                 <span class="input-group-addon">
                                     <span class="glyphicon glyphicon-remove"></span>
                                 </span>
@@ -39,7 +39,7 @@
                                 </span>
                             </div>
                             <div id="year-filter-group" class="input-group date">
-                                <input id="year-filter" name="year-filter" class="form-control" size="16" type="text" readonly style="background-color: white; cursor: pointer;">
+                                <input id="year-filter" name="year-filter" class="form-control" size="8" type="text" readonly style="background-color: white; cursor: pointer;">
                                 <span class="input-group-addon">
                                     <span class="glyphicon glyphicon-remove"></span>
                                 </span>
@@ -56,7 +56,7 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <input type="text" id="search-box" class="form-control">
+                            <input type="text" id="search-box" class="form-control" size="16">
                         </div>
                         <button id="search-button" class="btn btn-default">Cari</button>
                     </div>
