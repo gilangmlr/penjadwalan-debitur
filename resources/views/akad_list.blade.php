@@ -175,7 +175,6 @@
 @endsection
 
 @section('script')
-<script src="{{ asset('js/bootbox.min.js') }}"></script>
 <script type="text/javascript">
     var table;
     function showDetails(that) {

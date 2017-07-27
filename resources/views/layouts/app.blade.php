@@ -12,7 +12,6 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/animate.css') }}" rel="stylesheet">
     <link href="{{ asset('css/bootstrap-datetimepicker.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/buttons.dataTables.css') }}" rel="stylesheet">
     <link href="{{ asset('css/buttons.bootstrap.min.css') }}" rel="stylesheet">
@@ -116,6 +115,7 @@
     <script src="{{ asset('js/jszip-3.1.3.min.js') }}"></script>
     <script src="{{ asset('js/dataTables.buttons.min.js') }}"></script>
     <script src="{{ asset('js/buttons.bootstrap.min.js') }}"></script>
+    <script src="{{ asset('js/bootbox.min.js') }}"></script>
     @yield('script')
 </body>
 </html>

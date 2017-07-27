@@ -68,7 +68,6 @@
 @endsection
 
 @section('script')
-<script src="{{ asset('js/bootbox.min.js') }}"></script>
 <script type="text/javascript">
     function prependedZeroTime(date) {
         var H = date.getHours();
@@ -164,7 +163,7 @@
                 {data: 'pendamping', name: 'pendamping', targets: 7},
                 {data: 'pIC', name: 'pIC', targets: 8},
                 {data: 'ruangan', name: 'ruangan', targets: 9},
-                {data: null , name: 'action', targets: 10, visible: komenVisibility
+                {data: null , name: 'action', targets: 10, visible: komenVisibility,
                     defaultContent: commentDefaultContent},
 
                 {orderable: false, targets: [0, 1, 3, 5, 6, 9, 10]},
