@@ -94,22 +94,44 @@
                             '</div>' +
                             '<hr />' +
                             '<input type="hidden" name="nik" value="' + data.nik + '">' +
-                            @foreach($permissionsArr as $perm)
-                                '<div class="row">' +
-                                    '<div class="col-xs-4"><div class="pull-right"><strong>{{ucfirst($perm[0])}} {{ucfirst($perm[1])}}: </strong></div></div>' +
+                            '<div class="row">' +
+                                '<div class="col-xs-6">' +
+                                @foreach($permissionsOne as $perm)
+                                    '<div class="row">' +
+                                        '<div class="col-xs-8"><div class="pull-right"><strong>{{ucfirst($perm[0])}} {{ucfirst($perm[1])}}: </strong></div></div>' +
 
-                                    '<div class="col-xs-6" style="padding-left: 0">' +
-                                        '<div id="" class="pull-left">' +
-                                            '<input type="checkbox" name="{{$perm[0]}}-{{$perm[1]}}"' +
-                                                (permissions['{{$perm[0]}}-{{$perm[1]}}'] == 'true' ? 'checked' : '') + 
-                                                @if(!Auth::user()->ability('admin,ubah-pengguna-role', 'ubah-pengguna'))
-                                                    disabled
-                                                @endif
-                                                '>' +
+                                        '<div class="col-xs-4" style="padding-left: 0">' +
+                                            '<div id="" class="pull-left">' +
+                                                '<input type="checkbox" name="{{$perm[0]}}-{{$perm[1]}}" ' +
+                                                    (permissions['{{$perm[0]}}-{{$perm[1]}}'] == 'true' ? 'checked ' : '') + 
+                                                    @if(!Auth::user()->ability('admin,ubah-pengguna-role', 'ubah-pengguna'))
+                                                        'disabled' +
+                                                    @endif
+                                                    '>' +
+                                            '</div>' +
                                         '</div>' +
                                     '</div>' +
+                                @endforeach
                                 '</div>' +
-                            @endforeach
+                                '<div class="col-xs-6">' +
+                                @foreach($permissionsTwo as $perm)
+                                    '<div class="row">' +
+                                        '<div class="col-xs-8"><div class="pull-right"><strong>{{ucfirst($perm[0])}} {{ucfirst($perm[1])}}: </strong></div></div>' +
+
+                                        '<div class="col-xs-4" style="padding-left: 0">' +
+                                            '<div id="" class="pull-left">' +
+                                                '<input type="checkbox" name="{{$perm[0]}}-{{$perm[1]}}" ' +
+                                                    (permissions['{{$perm[0]}}-{{$perm[1]}}'] == 'true' ? 'checked ' : '') + 
+                                                    @if(!Auth::user()->ability('admin,ubah-pengguna-role', 'ubah-pengguna'))
+                                                        'disabled' +
+                                                    @endif
+                                                    '>' +
+                                            '</div>' +
+                                        '</div>' +
+                                    '</div>' +
+                                @endforeach
+                                '</div>' +
+                            '</div>' +
                         '</form>';
 
         function callbackFn() {

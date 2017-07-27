@@ -32,6 +32,9 @@ class AdminController extends Controller
             return explode('-', $item);
         };
         $permissionsArr = array_map($fn, $permissions);
+        $halved = array_chunk($permissionsArr, ceil(count($permissionsArr)/2));
+        $permissionsOne = $halved[0];
+        $permissionsTwo = $halved[1];
         $users = User::all()->map(function($item, $key) use($permissions) {
             $permission = [];
             foreach ($permissions as $key => $value) {
@@ -45,7 +48,7 @@ class AdminController extends Controller
             $permission = ['permissions' => $permission];
             return array_merge($item->toArray(), $permission);
         });
-        return view('admin_users', ["users" => $users, "permissions" => $permissions, "permissionsArr" => $permissionsArr]);
+        return view('admin_users', ["users" => $users, "permissions" => $permissions, "permissionsOne" => $permissionsOne, "permissionsTwo" => $permissionsTwo]);
     }
 
     public function crud_users_edit(Request $req) {
