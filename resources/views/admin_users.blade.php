@@ -33,6 +33,7 @@
                                         </button>
                                     </td>
                                     <td>{
+                                    "admin": "{{$user['permissions']['admin'] ? 'true' : 'false'}}",
                                     @foreach($permissions as $perm)
                                         "{{$perm}}": "{{$user['permissions'][$perm] ? 'true' : 'false'}}"
                                         @if($perm != end($permissions))
@@ -92,6 +93,20 @@
                                     '</div>' +
                                 '</div>' +
                             '</div>' +
+                            '<div class="row">' +
+                                '<div class="col-xs-4"><div class="pull-right"><strong>Admin: </strong></div></div>' +
+
+                                '<div class="col-xs-6" style="padding-left: 0">' +
+                                    '<div id="" class="pull-left">' +
+                                        '<input type="checkbox" name="admin" ' +
+                                            (permissions['admin'] == 'true' ? 'checked ' : '') + 
+                                            @if(!Auth::user()->hasRole('admin'))
+                                                'disabled' +
+                                            @endif
+                                            '>' +
+                                    '</div>' +
+                                '</div>' +
+                            '</div>' +
                             '<hr />' +
                             '<input type="hidden" name="nik" value="' + data.nik + '">' +
                             '<div class="row">' +
@@ -141,7 +156,7 @@
                 method: 'POST',
                 data: $('form').serialize()
             });
-            window.location.href = '/view-admin-users';
+            // window.location.href = '/view-admin-users';
         }
 
         @if(Auth::user()->ability('admin,hapus-akad-role', 'hapus-akad'))

@@ -37,6 +37,12 @@ class AdminController extends Controller
         $permissionsTwo = $halved[1];
         $users = User::all()->map(function($item, $key) use($permissions) {
             $permission = [];
+            if ($item->hasRole('admin')) {
+                $permission['admin'] = true;
+            }
+            else {
+                $permission['admin'] = false;
+            }
             foreach ($permissions as $key => $value) {
                 if ($item->ability('admin,' . $value . '-role', $value)) {
                     $permission[$value] = true;
@@ -55,6 +61,31 @@ class AdminController extends Controller
         $all = $req->all();
         $user = User::where('nik', '=', $all['nik'])->first();
         $permissions = ['buat-akad', 'lihat-akad', 'ubah-akad', 'hapus-akad', 'pantau-akad', 'lihat-pengguna', 'ubah-pengguna', 'buat-komentar', 'buat-laporan'];
+        if ($req->has('admin')) {
+            if (!$user->hasRole('admin')) {
+                $role = Role::where('name', '=', 'admin')->first();
+                $user->attachRole($role);
+            }
+            foreach ($permissions as $key => $value) {
+                if (!$user->ability($value . '-role, admin', $value)) {
+                    $role = Role::where('name', '=', $value . '-role')->first();
+                    $user->attachRole($role);
+                }
+            }
+        }
+        else {
+            if ($user->hasRole('admin')) {
+                $role = Role::where('name', '=', 'admin')->first();
+                $user->detachRole($role);
+
+                foreach ($permissions as $key => $value) {
+                    $role = Role::where('name', '=', $value . '-role')->first();
+                    $user->detachRole($role);
+                }
+            }
+        }
+
+        $supposedlyAdmin = true;
         foreach ($permissions as $key => $value) {
             if ($req->has($value)) {
                 if (!$user->ability($value . '-role, admin', $value)) {
@@ -63,10 +94,29 @@ class AdminController extends Controller
                 }
             }
             else {
+                $supposedlyAdmin = false;
                 if ($user->ability($value . '-role, admin', $value)) {
                     $role = Role::where('name', '=', $value . '-role')->first();
                     $user->detachRole($role);
                 }
+            }
+        }
+        if ($supposedlyAdmin) {
+            if (!$user->hasRole('admin')) {
+                $role = Role::where('name', '=', 'admin')->first();
+                $user->attachRole($role);
+            }
+            foreach ($permissions as $key => $value) {
+                if (!$user->ability($value . '-role, admin', $value)) {
+                    $role = Role::where('name', '=', $value . '-role')->first();
+                    $user->attachRole($role);
+                }
+            }
+        }
+        else {
+            if ($user->hasRole('admin')) {
+                $role = Role::where('name', '=', 'admin')->first();
+                $user->detachRole($role);
             }
         }
     }
