@@ -119,6 +119,11 @@ class EntrustSetupTables extends Migration
         $user->attachPermissions([$buat_akad, $lihat_akad, $pantau_akad]);
 
         User::where('nik', '=', '1234567890')->first()->attachRole($admin);
+        User::where('nik', '=', '1')->first()->attachRole($user);
+        User::where('nik', '=', '2')->first()->attachRole($user);
+        User::where('nik', '=', '3')->first()->attachRole($user);
+        User::where('nik', '=', '4')->first()->attachRole($user);
+        User::where('nik', '=', '5')->first()->attachRole($user);
 
         $buat_akad_role = new Role();
         $buat_akad_role->name = 'buat-akad-role';
